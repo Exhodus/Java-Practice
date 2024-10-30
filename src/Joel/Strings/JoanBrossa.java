@@ -6,7 +6,7 @@ public class JoanBrossa {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        int casos = scan.nextInt(),gran = -1;
+        int casos = scan.nextInt(),gran = -1,cont = 0;
         scan.nextLine();
         String frase;
         int[] vocals = new int[5];
@@ -36,16 +36,17 @@ public class JoanBrossa {
 
             for(int i = 0; i < vocals.length; i++){
                 if(vocals[i] > gran || gran == -1){
-                    gran = i;
+                    gran = vocals[i];
+                    cont = i;
                 }
             }
-            if(gran == 0){
+            if(cont == 0){
                 System.out.println("Vocal guanyadora: a");
-            } else if(gran == 1){
+            } else if(cont == 1){
                 System.out.println("Vocal guanyadora: e");
-            } else if (gran == 2) {
+            } else if (cont == 2) {
                 System.out.println("Vocal guanyadora: i");
-            } else if(gran == 3){
+            } else if(cont == 3){
                 System.out.println("Vocal guanyadora: o");
             } else {
                 System.out.println("Vocal guanyadora: u");
