@@ -7,7 +7,7 @@ public class FormulaEuler {
         Scanner scan = new Scanner(System.in);
 
         int casos = scan.nextInt();
-        int entrades,gran = 0,petit = 0, sum;
+        int entrades,gran = -1,petit = -1, sum;
 
         for(int i = 0; i < casos; i++){
             entrades = scan.nextInt();
@@ -21,10 +21,10 @@ public class FormulaEuler {
 
             for(int h = 0; h < loops; h++) {
                 for (int j = 0; j < nums.length; j++) {
-                    if ((nums[j] > gran || gran == 0) && nums[j] != 0) {
+                    if ((nums[j] > gran || gran == -1) && nums[j] != -1) {
                         gran = nums[j];
                     }
-                    if ((nums[j] < petit || petit == 0) && nums[j] != 0) {
+                    if ((nums[j] < petit || petit == -1) && nums[j] != -1) {
                         petit = nums[j];
                     }
                 }
@@ -35,14 +35,14 @@ public class FormulaEuler {
 
                 for (int j = 0; j < nums.length; j++){
                     if( nums[j] == gran){
-                        nums[j] = 0;
+                        nums[j] = -1;
                     } else if(nums[j] == petit){
-                        nums[j] = 0;
+                        nums[j] = -1;
                     }
                 }
 
-                gran = 0;
-                petit = 0;
+                gran = -1;
+                petit = -1;
 
             }
 
