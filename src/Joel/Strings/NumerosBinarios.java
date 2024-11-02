@@ -5,37 +5,49 @@ import java.util.Scanner;
 public class NumerosBinarios {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+
         int casos = scan.nextInt();
-        String op,result = "";
-        int num1,num2,total;
+        int total = 0, centenas = 0,holder = 0, decenas = 0, unidades = 0;
         scan.nextLine();
+        String entrada;
+        String result = "";
 
-        for(int i = 0; i < casos;i++){
+        for(int i = 0; i < casos; i++){
+            entrada = scan.nextLine();
+            String[] separat = entrada.split(" ");
 
-            op = scan.nextLine();
-            String[] calcul = op.split(" ");
-            num1 = Integer.parseInt(calcul[0]);
-            num2 = Integer.parseInt(calcul[2]);
-            if(calcul[1].equals("+")){
-                total = num1+num2;
+            if(separat[1].equals("+")){
+                total = Integer.parseInt(separat[0]) + Integer.parseInt(separat[2]);
             } else {
-                total = num1-num2;
+                total = Integer.parseInt(separat[0]) - Integer.parseInt(separat[2]);
+
             }
 
-            for(int j = total; j > 0; j = j/2){
-                if(j % 2 == 0){
+            for(int j = total; j > 0; j /= 2){
+                if( j % 2 == 0){
                     result += "0";
                 } else {
                     result += "1";
                 }
             }
-            String holder = "0";
-            for(int j = result.length()-1; j >= 0; j-- ){
-                holder += result.charAt(j);
+
+            String reversed ="";
+
+            for(int j = result.length()-1; j >= 0; j--){
+                reversed += result.charAt(j);
             }
-            System.out.println(holder);
+
+            if(reversed.isEmpty()){
+                System.out.println(0);
+            } else {
+                System.out.println(reversed);
+            }
+
             result = "";
             total = 0;
         }
+
+
+
     }
 }
