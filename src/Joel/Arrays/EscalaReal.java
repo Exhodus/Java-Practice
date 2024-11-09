@@ -20,7 +20,8 @@ public class EscalaReal {
                 arrayCartes[j] = scan.nextInt();
             }
 
-            //Le doy la vuelta al array
+            //Hasta aqui esta bien
+
             for(int j = 0; j < cartesOrdenades.length; j++){
 
                 for(int k = 0; k < arrayCartes.length; k++){
@@ -38,9 +39,11 @@ public class EscalaReal {
             cont = 0;
             //Una vez ordenado como haces para saber si 2 numeros están seguidos.
 
-            for(int j = cartesOrdenades.length -1; j > 0 ; j--){
-                if(cartesOrdenades[j] == cartesOrdenades[j-1]){
+            for(int j = 0; j < cartesOrdenades.length - 1 ; j++){
+                if(cartesOrdenades[j] == cartesOrdenades[j+1] + 1){
                     cont++;
+                } else if (cartesOrdenades[j] > cartesOrdenades[j+1] + 2){
+                    cont = 0;
                 }
             }
 
@@ -48,12 +51,12 @@ public class EscalaReal {
             if(cartesOrdenades[0] == 13 && cartesOrdenades[1] == 12 && cartesOrdenades[2] == 11 &&
                 cartesOrdenades[3] == 10 && cartesOrdenades[6] == 1){
                 flagReal = true;
-            } else if(cont > 4) {
+            } else if(cont >= 4) {
                 flagNormal = true;
             }
 
             if(flagReal){
-                System.out.println("ESCALA REAL");
+                System.out.println("ESCALA REIAL");
             } else if( flagNormal) {
                 System.out.println("ESCALA");
             } else {
