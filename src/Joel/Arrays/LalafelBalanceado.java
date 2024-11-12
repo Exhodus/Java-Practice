@@ -9,7 +9,7 @@ public class LalafelBalanceado {
 
         int casos = scan.nextInt();
         int lalafel = 0,telaranya = 0, llenas = 0;
-        int capacitat;
+        int capacitat,holder = 0;
         boolean aranya = false;
         scan.nextLine();
         String entradas;
@@ -17,37 +17,31 @@ public class LalafelBalanceado {
 
         for(int i =0 ; i < casos; i++){
 
-            entradas = scan.nextLine();
+            entradas = scan.nextLine().toLowerCase();
             String[] separados = entradas.split(", ");
 
             capacitat = scan.nextInt();
             scan.nextLine();
 
             for(int j = 0; j < separados.length; j++){
-
-                switch (separados[j]){
-                    case "Lalafel":
-                        lalafel ++;
-                        break;
-                    case "Telaranya":
-                        telaranya++;
-                        break;
-                    case "Aranya":
-                        aranya = true;
-                        break;
+                if(separados[j].equals("lalafel")){
+                    lalafel++;
+                    aranya = false;
+                } else if (separados[j].equals("telaranya")){
+                    telaranya++;
+                    aranya = false;
+                } else if ( separados[j].equals("aranya") ){
+                    aranya = true;
+                    telaranya = 0;
+                    lalafel = 0;
                 }
             }
 
-            if(!aranya){
-                if(telaranya*capacitat <= lalafel && capacitat!= 0){
-                    llenas = telaranya;
-                    System.out.println("Hay " +llenas+" telaranyas llenas");
-                }else{
-                    System.out.println("Hay " +llenas+" telaranyas llenas");
-                }
-            } else {
-                System.out.println("Hay " +llenas+" telaranyas llenas");
+            if (!aranya && capacitat != 0 && telaranya != 0){
+                llenas = lalafel / (capacitat*telaranya);
             }
+
+            System.out.println("Hay "+llenas+" telaranyas llenas.");
 
             lalafel = 0;
             telaranya = 0;
