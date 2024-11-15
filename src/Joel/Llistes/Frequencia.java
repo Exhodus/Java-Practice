@@ -8,33 +8,62 @@ public class Frequencia {
 
         Scanner scan = new Scanner(System.in);
 
+        ArrayList<Integer> nums = new ArrayList<>();
         int casos = scan.nextInt();
         int entrades;
-        boolean flag = false;
+        int[] repes = new int[10];
 
         for(int i = 0; i < casos; i++){
             entrades = scan.nextInt();
-            int[] nums = new int[entrades];
 
-            for(int j = 0; j < nums.length; j++){
-                nums[j] = scan.nextInt();
+            for(int j = 0; j < entrades; j++){
+                nums.add(scan.nextInt());
             }
 
-            for(int j = 0; j <nums.length; j++){
-                for(int k = j+1; k < nums.length; k++){
-                    if(nums[j] == nums[k]){
-                        flag = true;
-                    }
+            for(int j = 0; j < nums.size(); j++){
+                switch (nums.get(j)){
+                    case 0:
+                        repes[0]++;
+                        break;
+                    case 1:
+                        repes[1]++;
+                        break;
+                    case 2:
+                        repes[2]++;
+                        break;
+                    case 3:
+                        repes[3]++;
+                        break;
+                    case 4:
+                        repes[4]++;
+                        break;
+                    case 5:
+                        repes[5]++;
+                        break;
+                    case 6:
+                        repes[6]++;
+                        break;
+                    case 7:
+                        repes[7]++;
+                        break;
+                    case 8:
+                        repes[8]++;
+                        break;
+                    case 9:
+                        repes[9]++;
+                        break;
+
                 }
             }
 
-            if(flag){
-                System.out.println("SI");
-            } else {
-                System.out.println("NO");
+            for(int j = 0; j < repes.length; j++){
+                System.out.print(repes[j]+" ");
+                repes[j] = 0;
             }
 
-            flag = false;
+            nums.clear();
+            System.out.println();
+
         }
     }
 }

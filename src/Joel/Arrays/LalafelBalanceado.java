@@ -37,8 +37,10 @@ public class LalafelBalanceado {
                 }
             }
 
-            if (!aranya && capacitat != 0 && telaranya != 0){
-                llenas = lalafel / (capacitat*telaranya);
+            if (!aranya && capacitat > 0 && telaranya > 0){
+                if(lalafel >= (capacitat*telaranya)){
+                    llenas = telaranya;
+                }
             }
 
             System.out.println("Hay "+llenas+" telaranyas llenas.");
