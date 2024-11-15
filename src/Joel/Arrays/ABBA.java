@@ -9,24 +9,29 @@ public class ABBA {
         int casos = scan.nextInt();
         scan.nextLine();
         String noms;
-        String acronim = "";
+        String inicials = "";
 
-        for(int i = 0; i < casos; i++){
-
+        for (int i = 0; i < casos; i++){
             noms = scan.nextLine();
-            String[] nomSep = noms.split(", ");
-            String[] lastNomSep = nomSep[nomSep.length-1].split(" i ");
+            String[] separats = noms.split(", ");
+            String[] ultims = separats[separats.length-1].split(" i ");
 
-            for(int j = 0; j < nomSep.length-1; j++){
-                acronim += nomSep[j].charAt(0);
+            for(int j = 0; j <  separats.length-1; j++){
+                inicials += separats[j].charAt(0);
+            }
+            for(int j = 0; j <  ultims.length; j++){
+                if(ultims.length > 2) {
+                    if (j % 2 == 0) {
+                        inicials += ultims[j].charAt(0);
+                    }
+                } else {
+                    inicials += ultims[j].charAt(0);
+                }
             }
 
-            for(int j = 0; j < lastNomSep.length; j++){
-                acronim += lastNomSep[j].charAt(0);
-            }
+            System.out.println(inicials);
 
-            System.out.println(acronim);
-            acronim = "";
+            inicials = "";
         }
     }
 }

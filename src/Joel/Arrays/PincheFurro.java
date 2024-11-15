@@ -7,42 +7,60 @@ public class PincheFurro {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
+        ArrayList<String> furros = new ArrayList<>();
         int casos = scan.nextInt();
         scan.nextLine();
-        ArrayList <String> expresions = new ArrayList<>();
-        String frases;
-        boolean hector = false;
+        String ruidos;
+        boolean pana = false;
+        int contR = 0;
 
         for(int i = 0; i < casos; i++){
+            ruidos = scan.nextLine();
+            String[] expresiones = ruidos.split(" ");
 
-            frases = scan.nextLine();
-            String[] separats = frases.split(" ");
+            for(int j = 0; j < expresiones.length; j++){
+                switch (expresiones[j].charAt(0)){
+                    case 'm':
+                        if(expresiones[j].contains("meow")){
+                            furros.add(expresiones[j]);
+                        }
+                        break;
+                    case 'g':
+                        for(int k = 0; k < expresiones[j].length(); k++){
+                            if (expresiones[j].charAt(k) == 'r'){
+                                contR++;
+                            }
+                        }
 
-            for(int j = 0; j < separats.length;j++){
-                if(separats[j].equals("grrr")){
-                    expresions.add(separats[j]);
-                } else if (separats[j].equals("woof")){
-                    expresions.add(separats[j]);
-                } else if (separats[j].equals("meow")){
-                    expresions.add(separats[j]);
-                }
-
-                if(separats[j].equals("Hector")){
-                    hector = true;
+                        if(contR == 3){
+                            furros.add(expresiones[j]);
+                        }
+                        break;
+                    case 'w':
+                        if(expresiones[j].contains("woof")){
+                            furros.add(expresiones[j]);
+                        }
+                        break;
+                    case 'H':
+                        if(expresiones[j].equals("Hector")){
+                            pana = true;
+                        }
                 }
             }
 
-            if(hector){
+            if(pana){
                 System.out.println("Gato pasando por el campo de batalla");
             } else {
-                if(expresions.isEmpty()){
+                if(furros.isEmpty()){
                     System.out.println("No hay Furros cerca");
                 } else {
-                    System.out.println(expresions);
+                    System.out.println(furros);
                 }
             }
-            expresions.clear();
-            hector = false;
+
+            pana = false;
+            furros.clear();
+            contR = 0;
         }
     }
 }
