@@ -12,7 +12,7 @@ public class Trileros {
         ArrayList<Integer> cubells = new ArrayList<>(entrades);
 
         for(int i = 0; i < entrades; i++){
-            if(i < entrades-1){
+            if(i != 0){
                 cubells.add(0);
             } else {
                 cubells.add(1);
