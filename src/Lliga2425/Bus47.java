@@ -4,34 +4,34 @@ import java.util.Scanner;
 
 public class Bus47 {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
 
-        int casos = scan.nextInt();
-        int entrades,num;
-        String buses = "";
-        boolean flag47 = false;
+       Scanner scan = new Scanner(System.in);
 
-       for(int i = 0;i < casos; i++){
-           entrades = scan.nextInt();
-           scan.nextLine();
-           for(int j = 0; j < entrades; j++){
-               buses = scan.next();
-               if(!buses.equals("B20")) {
-                   num = Integer.parseInt(buses);
-                   if (num == 47) {
-                       flag47 = true;
-                   }
+       int casos = scan.nextInt();
+       int entradas;
+       String bus ="";
+       boolean ojo = false;
+
+       for(int i = 0; i < casos; i++){
+
+           entradas = scan.nextInt();
+
+           bus = scan.nextLine();
+           String[] buses = bus.split(" ");
+
+           for (int j = 1; j < buses.length; j++){
+               if(buses[j].equals("47")){
+                   ojo = true;
                }
-
            }
 
-           if(flag47){
+           if(ojo){
                System.out.println("SI");
            } else {
                System.out.println("NO");
            }
 
-           flag47 = false;
+           ojo = false;
        }
     }
 }
