@@ -15,7 +15,7 @@ public class Jaimito {
 
             frase = scan.nextLine().toLowerCase();
 
-            if(frase.contains("hada") || frase.contains("uwu") || frase.contains("owo") || frase.contains("sacapuntas") ||
+            if(frase.contains(" hada ") || frase.contains("uwu") || frase.contains("owo") || frase.contains("sacapuntas") ||
             frase.contains("adolfito") || frase.contains("35")){
                 System.out.println("Jaime ha recibido un Ban");
             } else {
