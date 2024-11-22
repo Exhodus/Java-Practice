@@ -20,7 +20,6 @@ public class Exercici_4 {
             }
 
         }
-
         for(int i = 0; i < paraules.length; i++){
            if(!paraules[i].equals("")){
                 llista.add(paraules[i]);
@@ -32,8 +31,6 @@ public class Exercici_4 {
                }
            }
         }
-
-
         for(int i = 0; i < llista.size(); i++){
             System.out.print(llista.get(i)+" ");
         }
