@@ -26,64 +26,60 @@ public class mini2048 {
             direccio = scan.nextLine();
 
             if(direccio.equals("L")){
-                for(int j = 1; j < camp.size()-1; j++){
-                    if(camp.get(j-1) == 0 && camp.get(j) != 0){
-                        if(camp.get(j) == camp.get(j+1)){
-                            int suma = camp.get(j)+camp.get(j+1);
-                            camp.set(j-1, suma);
-                            camp.remove(camp.get(j));
-                            camp.remove(camp.get(j));
-                        }
-                    } else if(camp.get(j-1) == camp.get(j) && camp.get(j) != 0){
-                        int suma = camp.get(j)+camp.get(j+1);
-                        camp.set(j-1, suma);
-                        camp.remove(camp.get(j));
-                        j--;
-                    } else if(camp.get(j+1) == camp.get(j) && camp.get(j) != 0){
-                        int suma = camp.get(j)+camp.get(j+1);
-                        camp.set(j, suma);
-                        camp.remove(camp.get(j+1));
+                for(int j =0; j < camp.size()-1; j++) {
+                    if (camp.get(j) == 0) {
+                        Collections.swap(camp, j, j + 1);
+                    }
+
+                }
+                for(int j =0; j < camp.size()-1; j++){
+                    if(camp.get(j)==camp.get(j+1)){
+                        int suma = camp.get(j) + camp.get(j+1);
+                        camp.set(j,suma);
+                        camp.remove(j+1);
+                        camp.add(0);
 
                     }
-                    for(int k = camp.size(); k < entrades; k++){
-                        camp.add(0);
-                    }
                 }
+
+
+                    for (int j = 0; j < camp.size()-1; j++) {
+                        if (camp.get(j) == 0) {
+                            Collections.swap(camp, j, j + 1);
+                        }
+                    }
             } else {
-                Collections.reverse(camp);
-                for(int j = 1; j < camp.size()-1; j++){
-                    if(camp.get(j-1) == 0 && camp.get(j) != 0){
-                        if(camp.get(j) == camp.get(j+1)){
-                            int suma = camp.get(j)+camp.get(j+1);
-                            camp.set(j-1, suma);
-                            camp.remove(camp.get(j));
-                            camp.remove(camp.get(j));
-                            ojo = true;
-                        }
-                    } else if(camp.get(j-1) == camp.get(j) && camp.get(j) != 0){
-                        int suma = camp.get(j)+camp.get(j+1);
-                        camp.set(j-1, suma);
-                        camp.remove(camp.get(j));
-                        j--;
-                        ojo = true;
-                    } else if(camp.get(j+1) == camp.get(j) && camp.get(j) != 0){
-                        int suma = camp.get(j)+camp.get(j+1);
-                        camp.set(j, suma);
-                        camp.remove(camp.get(j+1));
-                        ojo = true;
-                    }
-                    for(int k = camp.size(); k < entrades; k++){
-                        camp.add(0);
+                for(int j =camp.size()-1; j >0; j--) {
+                    if (camp.get(j) == 0) {
+                        Collections.swap(camp, j, j - 1);
                     }
                 }
 
-                if(ojo) {
-                    Collections.reverse(camp);
+                for(int j = camp.size()-1; j > 0; j--){
+                    if(camp.get(j)==camp.get(j-1) && camp.get(j) != 0){
+                        int suma = camp.get(j) + camp.get(j-1);
+                        camp.set(j,suma);
+                        camp.remove(j-1);
+                        camp.add(0,0);
+                    }
+                }
+
+
+                while(camp.get(camp.size()-1) == 0) {
+                    for (int j = camp.size() - 1; j > 0; j--) {
+                        if (camp.get(j) == 0) {
+                            Collections.swap(camp, j, j - 1);
+                        }
+                    }
                 }
             }
 
-            System.out.println(camp);
+            for(int j = 0; j < camp.size();j++){
+                System.out.print(camp.get(j)+" ");
+            }
+            System.out.println();
             camp.clear();
+            ojo = false;
         }
     }
 }
