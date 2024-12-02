@@ -57,10 +57,11 @@ public class Alfil {
                     }
                 }
                 System.out.println();
-
             }
 
             System.out.println("----------c ");
+
+
 
 //            for(int j = 0; j < tablero.length; j++){
 //                for(int k = 0; k < tablero[0].length; k++) {
@@ -75,16 +76,6 @@ public class Alfil {
 //                System.out.println();
 //            }
 
-            for(int j = 0; j < tablero.length; j++ ){
-                for(int k = 0; k < tablero[0].length; k++){
-                    if(j == k){
-                        System.out.print("X ");
-                    } else {
-                        System.out.print(". ");
-                    }
-                }
-                System.out.println();
-            }
 
             System.out.println(cont);
         }

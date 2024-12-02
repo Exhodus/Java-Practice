@@ -19,10 +19,10 @@ public class Notes {
 
             for(int j = 0; j < notes.length; j++){
                 for(int k = 0; k < notes[0].length; k++){
-                    notes[i][j] = scan.nextInt();
-                    suma += notes[i][j];
+                    notes[j][k] = scan.nextInt();
+                    suma += notes[j][k];
                 }
-                result = suma/notes[i].length;
+                result = suma/notes[j].length;
                 System.out.print(result+" ");
                 suma = 0;
             }
