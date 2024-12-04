@@ -46,38 +46,48 @@ public class Alfil {
             }
             
             int columnas = Integer.parseInt(filasCol[1])-1;
-            int cont = 0;
 
-            for(int j = 0; j < tablero.length; j++){
-                for(int k = 0; k < tablero[0].length; k++) {
-                    if (j == filas && k == columnas) {
-                        System.out.print("X ");
-                    } else{
-                        System.out.print(". ");
-                    }
-                }
-                System.out.println();
+
+            int cont = 1;
+            int suma = 0;
+
+            //Diagonal superior Derecha
+
+            while((filas-cont >= 0 && filas < tablero.length) && (columnas >= 0 && columnas+cont  < tablero[0].length)){
+                cont++;
+                suma ++;
             }
 
-            System.out.println("----------c ");
+            //Diagonal Inferior Derecha
 
+            cont = 1;
+            while((filas >= 0 && filas+cont < tablero.length) && (columnas >= 0 && columnas+cont< tablero[0].length)){
 
+                cont++;
+                suma ++;
+            }
 
-//            for(int j = 0; j < tablero.length; j++){
-//                for(int k = 0; k < tablero[0].length; k++) {
-//                    if ((j != filas && k != columnas) && j == k ) {
-//                        System.out.print("X ");
-//                    } else if((tablero.length-j != filas && tablero[0].length-k != columnas) && j == tablero[0].length-k) {
-//                        System.out.print("X ");
-//                    } else{
-//                        System.out.print(". ");
-//                    }
-//                }
-//                System.out.println();
-//            }
+            //Diagonal Inferior Izquierda
 
+            cont = 1;
+            while((filas >= 0 && filas+cont < tablero.length) && (columnas-cont >= 0 && columnas< tablero[0].length)){
 
-            System.out.println(cont);
+                cont++;
+                suma ++;
+            }
+
+            //Diagonal Superior Izquierda
+
+            cont = 1;
+            while((filas-cont >= 0 && filas < tablero.length) && (columnas-cont >= 0 && columnas< tablero[0].length)){
+
+                cont++;
+                suma ++;
+            }
+
+            System.out.println(suma);
+
+            suma = 0;
         }
     }
 }
