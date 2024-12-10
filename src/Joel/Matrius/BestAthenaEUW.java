@@ -27,6 +27,7 @@ public class BestAthenaEUW {
             indiceFilas = scan.nextInt();
             indiceColumnas = scan.nextInt();
 
+            if(tablero[indiceFilas][indiceColumnas] == 1) {
 
                 for (int i = indiceFilas - 1; i <= indiceFilas + 1; i++) {
                     for (int j = indiceColumnas - 1; j <= indiceColumnas + 1; j++) {
@@ -36,12 +37,11 @@ public class BestAthenaEUW {
                         }
                     }
                 }
-
-            if(tablero[indiceFilas][indiceColumnas] == 1){
-                System.out.println(cont);
             } else {
-                System.out.println(-1);
+                cont = -1;
             }
+
+            System.out.println(cont);
 
             cont = 0;
         }

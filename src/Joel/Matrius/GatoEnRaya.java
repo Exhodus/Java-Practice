@@ -21,17 +21,7 @@ public class GatoEnRaya {
                 }
             }
 
-            //Por filas:
-            for(int i = 0; i < tablero.length; i++){
-                for(int j = 0; j < tablero[0].length-2; j++){
-                    if (tablero[i][j] == 1 && tablero[i][j + 1] == 1 && tablero[i][j+2] == 1) {
-                        cont3++;
-                        tablero[i][j] = 0;
-                        tablero[i][j+1] = 0;
-                        tablero[i][j+2] = 0;
-                    }
-                }
-            }
+
 
             //Por Columnas.
 
@@ -48,6 +38,17 @@ public class GatoEnRaya {
                 }
             }
 
+            //Por filas:
+            for(int i = 0; i < tablero.length; i++){
+                for(int j = 0; j < tablero[0].length-2; j++){
+                    if (tablero[i][j] == 1 && tablero[i][j + 1] == 1 && tablero[i][j+2] == 1) {
+                        cont3++;
+                        tablero[i][j] = 0;
+                        tablero[i][j+1] = 0;
+                        tablero[i][j+2] = 0;
+                    }
+                }
+            }
 
             //Diagonal direccion inferior derecha.
 
