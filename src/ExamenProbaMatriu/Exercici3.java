@@ -10,23 +10,25 @@ public class Exercici3 {
         int columnas = scan.nextInt();
         int cont = 0;
 
-        int[][] cielo = new int[filas][columnas];
+        int[][] tablero = new int[filas][columnas];
 
-        for(int i = 0; i < cielo.length; i++){
-            for(int j = 0; j < cielo[0].length; j++){
-                cielo[i][j] = scan.nextInt();
+        for(int i = 0; i < tablero.length; i++){
+            for(int j = 0; j < tablero[0].length; j++){
+                tablero[i][j] = scan.nextInt();
             }
         }
 
-        int indiceFila = scan.nextInt();
-        int indiceColumna = scan.nextInt();
+        int naveFila = scan.nextInt();
+        int naveCol = scan.nextInt();
 
-        if(cielo[indiceColumna][indiceFila] == 1) {
-            for (int i = indiceFila - 1; i <= indiceFila + 1; i++) {
-                for (int j = indiceColumna - 1; j <= indiceColumna + 1; j++) {
-                    boolean estoyFuerisima = ohno(cielo, i, j);
-                    if (!estoyFuerisima && i != indiceFila && j != indiceColumna && cielo[i][j] == 1) {
-                        cont++;
+        if(tablero[naveFila][naveCol] == 1) {
+            for (int i = naveFila - 1; i < naveFila + 2; i++) {
+                for (int j = naveCol - 1; j < naveCol + 2; j++) {
+                    boolean estoyFuerisima = ohno(tablero, i, j);
+                    if (!estoyFuerisima && i != naveFila && j != naveCol) {
+                        if (tablero[i][j] == 1) {
+                            cont++;
+                        }
                     }
                 }
             }
@@ -43,16 +45,14 @@ public class Exercici3 {
                 case 0:
                     System.out.println("ALONE");
             }
-
         } else {
             System.out.println("DOWN");
         }
-        System.out.println(cont);
 
     }
 
     private static boolean ohno(int[][] cielo, int i, int j) {
-        if(i < 0 || i > cielo.length-1 || j < 0 || j > cielo[0].length){
+        if(i < 0 || i > cielo.length-1 || j < 0 || j > cielo[0].length-1){
             return true;
         } else {
             return false;
