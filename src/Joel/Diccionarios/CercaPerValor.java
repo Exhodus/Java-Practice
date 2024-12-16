@@ -1,41 +1,33 @@
 package Joel.Diccionarios;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class CercaPerValor {
+
+    static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
 
         int casos = scan.nextInt();
-        int entradas;
+        int entrdades;
 
-        TreeMap<String,String> capitals = new TreeMap<>();
-
-        for(int k = 0; k < casos; k++){
-
-            entradas = scan.nextInt();
+        for(int i = 0; i < casos; i++){
+            entrdades = scan.nextInt();
             scan.nextLine();
+            HashMap<String,String> capitals = new HashMap<>();
 
-            for(int i = 0; i < entradas-1; i++){
-                String[] frase = scan.nextLine().split("-");
-                capitals.put(frase[0],frase[1]);
+
+            for(int j = 0; j < entrdades-1; j++){
+                String[] sep = scan.nextLine().split("-");
+                capitals.put(sep[0],sep[1]);
             }
 
-            String buscador = scan.nextLine();
+            String busqueda = scan.nextLine();
             String key = "";
 
-            for(Map.Entry<String,String> entry : capitals.entrySet()){
-                if(entry.getValue().equals(buscador)){
-                    key = entry.getKey();
-                }
-            }
-
             System.out.println(capitals);
-            System.out.println(key);
-            capitals.clear();
+            System.out.println(capitals.get(busqueda));
         }
     }
 }
