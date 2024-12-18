@@ -28,7 +28,7 @@ public class Ahorcado {
         }
 
         while (!fi) {
-            System.out.println("Entra una lletra: ");
+            System.out.print("Entra una lletra: ");
             letra = scan.next().toUpperCase();
             int vigilarError = error;
             error = entrarLletra(letra,vacio,palabra,error);
@@ -42,7 +42,7 @@ public class Ahorcado {
                     addDibujo(ahorcado, error, fi);
                     printAhorcado(ahorcado);
                     System.out.print(vacio + "  ");
-                    System.out.println("Errores: " + error);
+                    System.out.println("Errores: " + error+"/7");
                     System.out.println("Letras usadas: " + letrasUsadas);
                 }else {
                     fi = true;
