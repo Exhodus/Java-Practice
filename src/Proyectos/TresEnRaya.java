@@ -47,7 +47,7 @@ public class TresEnRaya {
                 }
                 salida = 2;
                 contTorns++;
-                if(contTorns == 9){
+                if(contTorns == 9 && !raya){
                     System.out.println("EMPAT");
                     raya = true;
                 }
