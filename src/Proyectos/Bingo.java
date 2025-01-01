@@ -1,5 +1,6 @@
 package Proyectos;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,16 +11,23 @@ public class Bingo {
 
     public static void main(String[] args) {
 
-        String[][] jugador1 = new String[7][21];
-        String[][] jugador2 = new String[7][21];
-        String[][] salidaNumeros = new String[21][21];
-        String[][] partida = new String[21][43];
+        StringBuilder[][] jugador1 = new StringBuilder[7][21];
+        StringBuilder[][] jugador2 = new StringBuilder[7][21];
+        StringBuilder[][] salidaNumeros = new StringBuilder[7][21];
+        StringBuilder[][] partida = new StringBuilder[21][43];
         String avanzar = "";
+
+        inicializar(jugador1);
+        inicializar(jugador2);
+        inicializar(salidaNumeros);
+        inicializar(partida);
 
         int ronda = 0;
         int numero = 0;
+        ArrayList<Integer> jaHaSortit = new ArrayList<>();
 
-        boolean fila = false;
+        boolean filaJ1 = false;
+        boolean filaJ2 = false;
         boolean bingo = false;
 
         System.out.println("Apreta INTRO para avanzar ----->");
@@ -79,27 +87,97 @@ public class Bingo {
 
         System.out.println("Tablero de juego: ");
         llenarPartida(partida,salidaNumeros,jugador1,jugador2, ronda, numero);
-        tacharNumeros(partida, numero,fila,bingo);
         imprimirTablero(partida);
+        tacharNumeros(partida, numero,filaJ1,filaJ2,bingo);
+
+
+        System.out.print("Empezar Partida? S/N:  ");
+        avanzar = scan.next();
+        if(avanzar.equals("S") || avanzar.equals("s")){
+            while (!bingo && (!filaJ1 ||filaJ2)) {
+                ronda++;
+                avanzarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero, jaHaSortit);
+                filaJ1 = isFila(jugador1);
+                filaJ2 = isFila(jugador2);
+
+                if(filaJ1){
+                    System.out.println("El jugador 1 ha hecho FILA!!! ");
+                }
+                if(filaJ2){
+                    System.out.println("El jugador 2 ha hecho FILA!!! ");
+                }
+            }
+        }
 
     }
 
-    private static void numerarCasillas(String[][] salidaNumeros) {
+    private static void inicializar(StringBuilder[][] tablero) {
+        for(int i = 0; i < tablero.length; i++){
+            for(int j = 0; j < tablero[0].length; j++){
+                tablero[i][j] = new StringBuilder();
+            }
+        }
+    }
+
+    private static boolean isFila(StringBuilder[][] jugador) {
+        boolean fila = false;
+        int cont = 0;
+
+        for(int i = 1; i < jugador.length; i +=2){
+            for(int j = 1; j < jugador[0].length; j++){
+                if(!jugador[i][j].equals("\u2588\u2588\u2588\u2588\u2588\u2588")){
+                    cont++;
+                }
+            }
+            if(cont == 5){
+                fila = true;
+            }
+            cont = 0;
+        }
+
+        return fila;
+    }
+
+    private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int ronda, int numero, ArrayList<Integer> jaHaSortit) {
+        ronda = 1;
+        numero = rand.nextInt(1,101);
+
+        if(!jaHaSortit.contains(numero)) {
+            jaHaSortit.add(numero);
+            encontrarNumero(jugador1,numero);
+            encontrarNumero(jugador2,numero);
+            encontrarNumero(salidaNumeros,numero);
+
+            llenarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero);
+            imprimirTablero(partida);
+            ronda++;
+        }
+    }
+
+    private static void encontrarNumero(StringBuilder[][] jugador, int numero) {
+        for(int i = 1; i < jugador.length; i+=2){
+            for(int j = 1; j < jugador[0].length; j+=2){
+
+            }
+        }
+    }
+
+    private static void numerarCasillas(StringBuilder[][] salidaNumeros) {
         int cont = 1;
         for(int i = 1; i <salidaNumeros.length; i+=2){
             for(int j = 1; j < salidaNumeros[0].length; j+=2){
                 if(cont < 101 && cont < 10){
-                    salidaNumeros[i][j] = String.valueOf(cont)+"     ";
+                    salidaNumeros[i][j].append(cont+"    ");
                     cont++;
                 } else if(cont < 101 && cont >= 10){
-                    salidaNumeros[i][j] = String.valueOf(cont)+"    ";
+                    salidaNumeros[i][j].append(cont+"    ");
                     cont++;
                 }
             }
         }
     }
 
-    private static void tacharNumeros(String[][] partida, int numero, boolean fila, boolean bingo) {
+    private static void tacharNumeros(StringBuilder[][] partida, int numero, boolean filaJ1, boolean filaJ2, boolean bingo) {
         for(int i = 0; i < partida.length; i++){
             for(int j = 0; j < partida[0].length; j++){
 
@@ -107,52 +185,52 @@ public class Bingo {
         }
     }
 
-    private static void llenarPartida(String[][] partida, String[][] salidaNumeros, String[][] jugador1, String[][] jugador2, int ronda, int numero) {
+    private static void llenarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int ronda, int numero) {
         for(int i = 0; i < partida.length; i++){
             for(int j = 0; j < partida[0].length; j++){
                 if(j < 21){
                     partida[i][j] = salidaNumeros[i][j];
                 } else if (j == 21){
-                    partida[i][j] = "           ";
+                    partida[i][j].append("           ");
                 }else if (j == 22 && i == 0) {
-                    partida[i][j] = "JUGADOR 1: ";
+                    partida[i][j].append("JUGADOR 1: ") ;
                 }else if (j > 22 && i == 0){
-                    partida[i][j] = "   ";
-                }else if (j > 21 && (i > 0 && i < 8)){
+                    partida[i][j].append("   ");
+                }else if (j > 21 && (i > 0 && i < 7)){
                     partida[i][j] = jugador1[i - 1][j-22];
                 } else if (i == 8 || i == 9 && j > 21){
-                    partida[i][j] = "   ";
+                    partida[i][j].append("   ");
                 } else if (i == 10 & j == 22){
-                    partida[i][j] = "JUGADOR 2: ";
+                    partida[i][j].append("JUGADOR 2: ") ;
                 }else if (j > 22 && i == 10){
-                    partida[i][j] = "   ";
-                }else if (j > 21 && (i > 10 && i < 18)) {
+                    partida[i][j].append("   ");
+                }else if (j > 21 && (i > 10 && i < 17)) {
                     partida[i][j] = jugador2[i - 11][j - 22];
                 }else if((i == 18 || i == 19) && j > 21) {
-                    partida[i][j] = "   ";
+                    partida[i][j].append("   ");
                 } else if (i == 20 && (j > 21 && j < 26)){
                     switch (j){
                         case 22:
-                            partida[i][j] = "Ronda: ";
+                            partida[i][j].append("Ronda: ") ;
                             break;
                         case 23:
-                            partida[i][j] = String.valueOf(ronda)+"    ";
+                            partida[i][j].append(ronda+"    ");
                             break;
                         case 24:
-                            partida[i][j] = "Numero: ";
+                            partida[i][j].append("Numero: ");
                             break;
                         case 25:
-                            partida[i][j] = String.valueOf(numero)+"    ";
+                            partida[i][j].append(numero+"    ");
                             break;
                     }
                 } else if ( i == 20 && j > 25){
-                    partida[i][j] = "   ";
+                    partida[i][j].append("   ");
                 }
             }
         }
     }
 
-    private static void llenarVacias(String[][] tablero) {
+    private static void llenarVacias(StringBuilder[][] tablero) {
         int contVacias = 0;
         int min = 0;
         int max = 0;
@@ -214,32 +292,32 @@ public class Bingo {
                if(num1 > 9) {
                    if (tablero[i][j].equals("      ")) {
                        if (num1 < num2 && contadorLlenas == 0) {
-                           tablero[i][j] = num1 + "    ";
+                           tablero[i][j].append(num1 + "    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas == 0) {
-                           tablero[i][j] = num2 + "    ";
+                           tablero[i][j].append(num2 + "    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas != 0) {
-                           tablero[i][j] = num1 + "    ";
+                           tablero[i][j].append(num1 + "    ");
                            contadorLlenas++;
                        } else if (num1 < num2 && contadorLlenas != 0) {
-                           tablero[i][j] = num2 + "    ";
+                           tablero[i][j].append(num2 + "    ");
                            contadorLlenas++;
                        }
                    }
                } else {
                    if (tablero[i][j].equals("      ")) {
                        if (num1 < num2 && contadorLlenas == 0) {
-                           tablero[i][j] = num1 + "     ";
+                           tablero[i][j].append(num1 + "    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas == 0) {
-                           tablero[i][j] = num2 + "     ";
+                           tablero[i][j].append(num2 + "    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas != 0) {
-                           tablero[i][j] = num1 + "     ";
+                           tablero[i][j].append(num1 + "    ");
                            contadorLlenas++;
                        } else if (num1 < num2 && contadorLlenas != 0) {
-                           tablero[i][j] = num2 + "     ";
+                           tablero[i][j].append(num2 + "    ");
                            contadorLlenas++;
                        }
                    }
@@ -251,20 +329,20 @@ public class Bingo {
 
     //Buidar les caselles
 
-    private static void vaciarCasillas(String[][] tablero) {
+    private static void vaciarCasillas(StringBuilder[][] tablero) {
         int contX = 0;
         //fila 1
         for(int i = 1; i < tablero[0].length; i+=2){
             int siNo = rand.nextInt(0,2);
             if(i % 2 == 1 && siNo == 1 && contX < 5){
-                tablero[1][i] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                tablero[1][i].append("\u2588\u2588\u2588\u2588\u2588\u2588") ;
                 contX++;
             }
         }
         while (contX < 5){
             int colRand = rand.nextInt(0,11);
             if(!tablero[1][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && colRand%2 == 1){
-                tablero[1][colRand] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                tablero[1][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
                 contX++;
             }
         }
@@ -273,14 +351,14 @@ public class Bingo {
         for(int i = 1; i < tablero[0].length; i+=2){
             int siNo = rand.nextInt(0,2);
             if(i % 2 == 1 && siNo == 1 && contX < 5){
-                tablero[3][i] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                tablero[3][i].append("\u2588\u2588\u2588\u2588\u2588\u2588") ;
                 contX++;
             }
         }
         while (contX < 5){
             int colRand = rand.nextInt(0,11);
             if(!tablero[3][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && colRand%2 == 1){
-                tablero[3][colRand] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                tablero[3][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
                 contX++;
             }
         }
@@ -290,11 +368,11 @@ public class Bingo {
             if(contarX(tablero, j) == 1){
                 int siNo = rand.nextInt(0, 2);
                 if ((siNo == 1 && contX < 5) && j%2 == 1) {
-                    tablero[5][j] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                    tablero[5][j].append("\u2588\u2588\u2588\u2588\u2588\u2588");
                     contX++;
                 }
             } else if (contarX(tablero,j) == 0 && j%2 == 1 && contX < 5){
-                tablero[5][j] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                tablero[5][j] .append("\u2588\u2588\u2588\u2588\u2588\u2588");
                 contX++;
             }
         }
@@ -302,14 +380,14 @@ public class Bingo {
             int colRand = rand.nextInt(0,11);
             if(colRand % 2 == 1) {
                 if (!tablero[5][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && contarX(tablero, colRand) == 1) {
-                    tablero[5][colRand] = "\u2588\u2588\u2588\u2588\u2588\u2588";
+                    tablero[5][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
                     contX++;
                 }
             }
         }
     }
 
-    private static int contarX(String[][] tablero, int j) {
+    private static int contarX(StringBuilder[][] tablero, int j) {
         int contColumnas = 0;
         for(int i = 1; i < tablero.length; i+=2){
             if(tablero[i][j].equals("\u2588\u2588\u2588\u2588\u2588\u2588")){
@@ -322,7 +400,7 @@ public class Bingo {
 
     //Imprimeix el tablero.
 
-    private static void imprimirTablero(String[][] tablero) {
+    private static void imprimirTablero(StringBuilder[][] tablero) {
         for(int i = 0; i < tablero.length; i++){
             for(int j = 0; j < tablero[0].length; j++){
                 System.out.print(tablero[i][j]);
@@ -333,22 +411,22 @@ public class Bingo {
 
     //Aquesta funció només ompla la matriu amb els marcs del cartró.
 
-    private static void llenarTablero(String[][] tablero) {
+    private static void llenarTablero(StringBuilder[][] tablero) {
         for(int i = 0; i < tablero.length; i++){
             for(int j = 0; j < tablero[0].length; j++){
                 if(j % 2 != 0){
                     if(i% 2 == 1 && j % 2 == 1){
-                        tablero[i][j] = "      ";
+                        tablero[i][j].append("      ");
                     } else {
-                        tablero[i][j] = "------";
+                        tablero[i][j].append("------");
                     }
                 } else {
                     if(i% 2 == 1 && j % 2 == 1){
-                        tablero[i][j] = " ";
+                        tablero[i][j].append(" ");
                     } else if (j%2 == 0 && i % 2 == 1 ){
-                        tablero[i][j] = "|";
+                        tablero[i][j].append("|");
                     } else {
-                        tablero[i][j] = "·";
+                        tablero[i][j].append("·");
                     }
                 }
             }
