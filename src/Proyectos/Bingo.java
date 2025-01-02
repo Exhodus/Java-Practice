@@ -7,13 +7,16 @@ import java.util.Scanner;
 public class Bingo {
     static Random rand = new Random();
     static Scanner scan = new Scanner(System.in);
-    static int contVacias = 0;
+    static  String blank = "\u2588\u2588\u2588\u2588\u2588\u2588";
+    static int ronda = 0;
+    static boolean bingo = false;
+    static boolean fila = false;
 
     public static void main(String[] args) {
 
         StringBuilder[][] jugador1 = new StringBuilder[7][21];
         StringBuilder[][] jugador2 = new StringBuilder[7][21];
-        StringBuilder[][] salidaNumeros = new StringBuilder[7][21];
+        StringBuilder[][] salidaNumeros = new StringBuilder[21][21];
         StringBuilder[][] partida = new StringBuilder[21][43];
         String avanzar = "";
 
@@ -22,13 +25,11 @@ public class Bingo {
         inicializar(salidaNumeros);
         inicializar(partida);
 
-        int ronda = 0;
         int numero = 0;
         ArrayList<Integer> jaHaSortit = new ArrayList<>();
 
         boolean filaJ1 = false;
         boolean filaJ2 = false;
-        boolean bingo = false;
 
         System.out.println("Apreta INTRO para avanzar ----->");
 
@@ -84,31 +85,69 @@ public class Bingo {
         //tablero de bolas:
         llenarTablero(salidaNumeros);
         numerarCasillas(salidaNumeros);
-
         System.out.println("Tablero de juego: ");
         llenarPartida(partida,salidaNumeros,jugador1,jugador2, ronda, numero);
         imprimirTablero(partida);
         tacharNumeros(partida, numero,filaJ1,filaJ2,bingo);
 
-
+        System.out.println();
         System.out.print("Empezar Partida? S/N:  ");
         avanzar = scan.next();
         if(avanzar.equals("S") || avanzar.equals("s")){
             while (!bingo && (!filaJ1 ||filaJ2)) {
-                ronda++;
                 avanzarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero, jaHaSortit);
                 filaJ1 = isFila(jugador1);
                 filaJ2 = isFila(jugador2);
 
-                if(filaJ1){
-                    System.out.println("El jugador 1 ha hecho FILA!!! ");
+                if(!fila) {
+                    if (filaJ1 && filaJ2) {
+                        System.out.println("Los 2 jugadores han hecho FILA a la vez!!! Maravillosa jugada.");
+                        fila = true;
+                    } else if (filaJ1) {
+                        System.out.println("El jugador 1 ha hecho Fila!!! espectacular.");
+                        fila = true;
+                    } else if (filaJ2) {
+                        System.out.println("El jugador 2 ha hecho Fila!!! espectacular.");
+                        fila = true;
+                    }
+                } else {
+                    boolean bingoJ1 =  isBingo(jugador1);
+                    boolean bingoJ2 = isBingo(jugador2);
+
+                    if(bingoJ1 && bingoJ2){
+                        System.out.println("LOS 2 JUGADORES HAN GANADO A LA VEZ!!! PERO QUE ESTA PASANDO MADRE MIA VAYA PARTIDAZA!!!");
+                        bingo = true;
+                    } else if (bingoJ1){
+                        System.out.println("EL JUGADOR 1 HA GANADO CON UNA VICTORIA APLASTANTE AL JUGADOR 2!!!");
+                        bingo = true;
+                    } else if(bingoJ2){
+                        System.out.println("EL JUGADOR 2 HA GANADO CON UNA VICTORIA APLASTANTE AL JUGADOR 1!!!");
+                        bingo = true;
+                    }
+
                 }
-                if(filaJ2){
-                    System.out.println("El jugador 2 ha hecho FILA!!! ");
-                }
+
             }
         }
 
+    }
+
+    private static boolean isBingo(StringBuilder[][] jugador) {
+        boolean  ganar = false;
+        int cont = 0;
+
+        for(int i = 1; i < jugador.length; i +=2){
+            for(int j = 1; j < jugador[0].length; j+=2){
+                if(jugador[i][j].charAt(jugador[i][j].length()-2) == 'X') {
+                    cont++;
+                }
+            }
+        }
+        if(cont == 15){
+            ganar = true;
+        }
+
+        return ganar;
     }
 
     private static void inicializar(StringBuilder[][] tablero) {
@@ -124,8 +163,8 @@ public class Bingo {
         int cont = 0;
 
         for(int i = 1; i < jugador.length; i +=2){
-            for(int j = 1; j < jugador[0].length; j++){
-                if(!jugador[i][j].equals("\u2588\u2588\u2588\u2588\u2588\u2588")){
+            for(int j = 1; j < jugador[0].length; j+=2){
+                if(jugador[i][j].charAt(jugador[i][j].length()-2) == 'X') {
                     cont++;
                 }
             }
@@ -139,10 +178,12 @@ public class Bingo {
     }
 
     private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int ronda, int numero, ArrayList<Integer> jaHaSortit) {
-        ronda = 1;
+
         numero = rand.nextInt(1,101);
+        String a = "";
 
         if(!jaHaSortit.contains(numero)) {
+            ronda++;
             jaHaSortit.add(numero);
             encontrarNumero(jugador1,numero);
             encontrarNumero(jugador2,numero);
@@ -157,7 +198,15 @@ public class Bingo {
     private static void encontrarNumero(StringBuilder[][] jugador, int numero) {
         for(int i = 1; i < jugador.length; i+=2){
             for(int j = 1; j < jugador[0].length; j+=2){
-
+                if(numero >= 10){
+                    if(jugador[i][j].toString().equals(numero+"    ")){
+                        jugador[i][j].setCharAt(jugador[i][j].length()-2, 'X');
+                    }
+                } else {
+                    if(jugador[i][j].toString().equals(numero+"     ")){
+                        jugador[i][j].setCharAt(jugador[i][j].length()-2, 'X');
+                    }
+                }
             }
         }
     }
@@ -167,10 +216,10 @@ public class Bingo {
         for(int i = 1; i <salidaNumeros.length; i+=2){
             for(int j = 1; j < salidaNumeros[0].length; j+=2){
                 if(cont < 101 && cont < 10){
-                    salidaNumeros[i][j].append(cont+"    ");
+                    salidaNumeros[i][j] = new StringBuilder(cont+"     ");
                     cont++;
                 } else if(cont < 101 && cont >= 10){
-                    salidaNumeros[i][j].append(cont+"    ");
+                    salidaNumeros[i][j] = new StringBuilder(cont+"    ");
                     cont++;
                 }
             }
@@ -191,40 +240,40 @@ public class Bingo {
                 if(j < 21){
                     partida[i][j] = salidaNumeros[i][j];
                 } else if (j == 21){
-                    partida[i][j].append("           ");
+                    partida[i][j] = new StringBuilder("           ");
                 }else if (j == 22 && i == 0) {
-                    partida[i][j].append("JUGADOR 1: ") ;
+                    partida[i][j] = new StringBuilder("JUGADOR 1");
                 }else if (j > 22 && i == 0){
-                    partida[i][j].append("   ");
-                }else if (j > 21 && (i > 0 && i < 7)){
+                    partida[i][j] = new StringBuilder("   ");
+                }else if ((j > 21)&& (i > 0 && i < 8)){
                     partida[i][j] = jugador1[i - 1][j-22];
                 } else if (i == 8 || i == 9 && j > 21){
-                    partida[i][j].append("   ");
+                    partida[i][j] = new StringBuilder("   ");
                 } else if (i == 10 & j == 22){
-                    partida[i][j].append("JUGADOR 2: ") ;
+                    partida[i][j] = new StringBuilder("JUGADOR 2: ") ;
                 }else if (j > 22 && i == 10){
-                    partida[i][j].append("   ");
-                }else if (j > 21 && (i > 10 && i < 17)) {
+                    partida[i][j] = new StringBuilder("   ");
+                }else if ((j > 21) && (i > 10 && i < 18)) {
                     partida[i][j] = jugador2[i - 11][j - 22];
                 }else if((i == 18 || i == 19) && j > 21) {
-                    partida[i][j].append("   ");
+                    partida[i][j] = new StringBuilder("   ");
                 } else if (i == 20 && (j > 21 && j < 26)){
                     switch (j){
                         case 22:
-                            partida[i][j].append("Ronda: ") ;
+                            partida[i][j] = new StringBuilder("Ronda: ") ;
                             break;
                         case 23:
-                            partida[i][j].append(ronda+"    ");
+                            partida[i][j] = new StringBuilder(ronda+"    ");
                             break;
                         case 24:
-                            partida[i][j].append("Numero: ");
+                            partida[i][j] = new StringBuilder("Numero: ");
                             break;
                         case 25:
-                            partida[i][j].append(numero+"    ");
+                            partida[i][j] = new StringBuilder(numero+"    ");
                             break;
                     }
                 } else if ( i == 20 && j > 25){
-                    partida[i][j].append("   ");
+                    partida[i][j] = new StringBuilder("   ");
                 }
             }
         }
@@ -290,34 +339,34 @@ public class Bingo {
             int contadorLlenas = 0;
            for(int i = 1; i < tablero.length; i+=2){
                if(num1 > 9) {
-                   if (tablero[i][j].equals("      ")) {
+                   if (tablero[i][j].toString().equals("      ")) {
                        if (num1 < num2 && contadorLlenas == 0) {
-                           tablero[i][j].append(num1 + "    ");
+                           tablero[i][j] = new StringBuilder(num1+"    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas == 0) {
-                           tablero[i][j].append(num2 + "    ");
+                           tablero[i][j] = new StringBuilder(num2+"    ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas != 0) {
-                           tablero[i][j].append(num1 + "    ");
+                           tablero[i][j] = new StringBuilder(num1+"    ");
                            contadorLlenas++;
                        } else if (num1 < num2 && contadorLlenas != 0) {
-                           tablero[i][j].append(num2 + "    ");
+                           tablero[i][j] = new StringBuilder(num2+"    ");
                            contadorLlenas++;
                        }
                    }
                } else {
-                   if (tablero[i][j].equals("      ")) {
+                   if (tablero[i][j].toString().equals("      ")) {
                        if (num1 < num2 && contadorLlenas == 0) {
-                           tablero[i][j].append(num1 + "    ");
+                           tablero[i][j] = new StringBuilder(num1+"     ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas == 0) {
-                           tablero[i][j].append(num2 + "    ");
+                           tablero[i][j] = new StringBuilder(num2+"     ");
                            contadorLlenas++;
                        } else if (num1 > num2 && contadorLlenas != 0) {
-                           tablero[i][j].append(num1 + "    ");
+                           tablero[i][j] = new StringBuilder(num1+"     ");
                            contadorLlenas++;
                        } else if (num1 < num2 && contadorLlenas != 0) {
-                           tablero[i][j].append(num2 + "    ");
+                           tablero[i][j] = new StringBuilder(num2+"     ");
                            contadorLlenas++;
                        }
                    }
@@ -335,14 +384,14 @@ public class Bingo {
         for(int i = 1; i < tablero[0].length; i+=2){
             int siNo = rand.nextInt(0,2);
             if(i % 2 == 1 && siNo == 1 && contX < 5){
-                tablero[1][i].append("\u2588\u2588\u2588\u2588\u2588\u2588") ;
+                tablero[1][i] = new StringBuilder(blank);
                 contX++;
             }
         }
         while (contX < 5){
             int colRand = rand.nextInt(0,11);
-            if(!tablero[1][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && colRand%2 == 1){
-                tablero[1][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
+            if(!tablero[1][colRand].toString().equals(blank) && colRand%2 == 1){
+                tablero[1][colRand] = new StringBuilder(blank);
                 contX++;
             }
         }
@@ -351,46 +400,47 @@ public class Bingo {
         for(int i = 1; i < tablero[0].length; i+=2){
             int siNo = rand.nextInt(0,2);
             if(i % 2 == 1 && siNo == 1 && contX < 5){
-                tablero[3][i].append("\u2588\u2588\u2588\u2588\u2588\u2588") ;
+                tablero[3][i] = new StringBuilder(blank);
                 contX++;
             }
         }
         while (contX < 5){
             int colRand = rand.nextInt(0,11);
-            if(!tablero[3][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && colRand%2 == 1){
-                tablero[3][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
+            if(!tablero[3][colRand].toString().equals(blank) && colRand%2 == 1){
+                tablero[3][colRand] = new StringBuilder(blank);
                 contX++;
             }
         }
         //Contar las X de les columnes per saber si s'ha d'aplicar l'algoritme o no.
         contX = 0;
         for(int j = 1; j < tablero[0].length; j++){
-            if(contarX(tablero, j) == 1){
+            int x = contarX(tablero,j,blank);
+            if(x == 1){
                 int siNo = rand.nextInt(0, 2);
                 if ((siNo == 1 && contX < 5) && j%2 == 1) {
-                    tablero[5][j].append("\u2588\u2588\u2588\u2588\u2588\u2588");
+                    tablero[5][j] = new StringBuilder(blank);
                     contX++;
                 }
-            } else if (contarX(tablero,j) == 0 && j%2 == 1 && contX < 5){
-                tablero[5][j] .append("\u2588\u2588\u2588\u2588\u2588\u2588");
+            } else if (x == 0 && j%2 == 1 && contX < 5){
+                tablero[5][j] = new StringBuilder(blank);
                 contX++;
             }
         }
         while (contX < 5){
             int colRand = rand.nextInt(0,11);
             if(colRand % 2 == 1) {
-                if (!tablero[5][colRand].equals("\u2588\u2588\u2588\u2588\u2588\u2588") && contarX(tablero, colRand) == 1) {
-                    tablero[5][colRand].append("\u2588\u2588\u2588\u2588\u2588\u2588");
+                if (!tablero[5][colRand].toString().equals(blank) && (contarX(tablero, colRand,blank) == 1 || contarX(tablero, colRand,blank) == 0)) {
+                    tablero[5][colRand] = new StringBuilder(blank);
                     contX++;
                 }
             }
         }
     }
 
-    private static int contarX(StringBuilder[][] tablero, int j) {
+    private static int contarX(StringBuilder[][] tablero, int j,String blank) {
         int contColumnas = 0;
         for(int i = 1; i < tablero.length; i+=2){
-            if(tablero[i][j].equals("\u2588\u2588\u2588\u2588\u2588\u2588")){
+            if(tablero[i][j].toString().equals(blank)){
                 contColumnas++;
             }
         }
@@ -416,17 +466,17 @@ public class Bingo {
             for(int j = 0; j < tablero[0].length; j++){
                 if(j % 2 != 0){
                     if(i% 2 == 1 && j % 2 == 1){
-                        tablero[i][j].append("      ");
+                        tablero[i][j] = new StringBuilder("      ");
                     } else {
-                        tablero[i][j].append("------");
+                        tablero[i][j] = new StringBuilder("------");
                     }
                 } else {
                     if(i% 2 == 1 && j % 2 == 1){
-                        tablero[i][j].append(" ");
+                        tablero[i][j] = new StringBuilder(" ");
                     } else if (j%2 == 0 && i % 2 == 1 ){
-                        tablero[i][j].append("|");
+                        tablero[i][j] = new StringBuilder("|");
                     } else {
-                        tablero[i][j].append("·");
+                        tablero[i][j] = new StringBuilder("·");
                     }
                 }
             }
