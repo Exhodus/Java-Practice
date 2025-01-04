@@ -95,6 +95,7 @@ public class Bingo {
         avanzar = scan.next();
         if(avanzar.equals("S") || avanzar.equals("s")){
             while (!bingo && (!filaJ1 ||filaJ2)) {
+                ronda++;
                 avanzarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero, jaHaSortit);
                 filaJ1 = isFila(jugador1);
                 filaJ2 = isFila(jugador2);
@@ -183,7 +184,6 @@ public class Bingo {
         String a = "";
 
         if(!jaHaSortit.contains(numero)) {
-            ronda++;
             jaHaSortit.add(numero);
             encontrarNumero(jugador1,numero);
             encontrarNumero(jugador2,numero);
@@ -191,7 +191,6 @@ public class Bingo {
 
             llenarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero);
             imprimirTablero(partida);
-            ronda++;
         }
     }
 
