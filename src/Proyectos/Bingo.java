@@ -3,6 +3,7 @@ package Proyectos;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Bingo {
     static Random rand = new Random();
@@ -12,14 +13,16 @@ public class Bingo {
     static boolean bingo = false;
     static boolean fila = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
+        //Declaració de variables importants
         StringBuilder[][] jugador1 = new StringBuilder[7][21];
         StringBuilder[][] jugador2 = new StringBuilder[7][21];
         StringBuilder[][] salidaNumeros = new StringBuilder[21][21];
         StringBuilder[][] partida = new StringBuilder[21][43];
         String avanzar = "";
 
+        //Iniciacització de les matrius.
         inicializar(jugador1);
         inicializar(jugador2);
         inicializar(salidaNumeros);
@@ -88,15 +91,17 @@ public class Bingo {
         System.out.println("Tablero de juego: ");
         llenarPartida(partida,salidaNumeros,jugador1,jugador2, ronda, numero);
         imprimirTablero(partida);
-        tacharNumeros(partida, numero,filaJ1,filaJ2,bingo);
 
         System.out.println();
         System.out.print("Empezar Partida? S/N:  ");
         avanzar = scan.next();
+
         if(avanzar.equals("S") || avanzar.equals("s")){
-            while (!bingo && (!filaJ1 ||filaJ2)) {
-                ronda++;
-                avanzarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero, jaHaSortit);
+
+            //Miro si hi ha bingo o fila en negatiu per tal de continuar en el bucle.
+            //Declaro 2 variables diferents per cada jugador per controlar en cas de empat tant en files com en bingo.
+            while (!bingo || !fila) {
+                avanzarPartida(partida, salidaNumeros, jugador1, jugador2, numero, jaHaSortit);
                 filaJ1 = isFila(jugador1);
                 filaJ2 = isFila(jugador2);
 
@@ -111,6 +116,8 @@ public class Bingo {
                         System.out.println("El jugador 2 ha hecho Fila!!! espectacular.");
                         fila = true;
                     }
+
+
                 } else {
                     boolean bingoJ1 =  isBingo(jugador1);
                     boolean bingoJ2 = isBingo(jugador2);
@@ -125,14 +132,17 @@ public class Bingo {
                         System.out.println("EL JUGADOR 2 HA GANADO CON UNA VICTORIA APLASTANTE AL JUGADOR 1!!!");
                         bingo = true;
                     }
-
                 }
+
+
 
             }
         }
 
     }
 
+    //Aquesta clase controla si hi ha bingo utilizant un contador que sigui igual a 15, que es el tota de numeros
+    //per cartó.
     private static boolean isBingo(StringBuilder[][] jugador) {
         boolean  ganar = false;
         int cont = 0;
@@ -151,6 +161,8 @@ public class Bingo {
         return ganar;
     }
 
+    //Inicialitzo les matrius per tal de que no donin null i poder treballar-les.
+
     private static void inicializar(StringBuilder[][] tablero) {
         for(int i = 0; i < tablero.length; i++){
             for(int j = 0; j < tablero[0].length; j++){
@@ -159,6 +171,7 @@ public class Bingo {
         }
     }
 
+    //Controlo si hi ha fila amb un contador a 5. La cuantitat de numeros que hi ha a una fila.
     private static boolean isFila(StringBuilder[][] jugador) {
         boolean fila = false;
         int cont = 0;
@@ -178,7 +191,12 @@ public class Bingo {
         return fila;
     }
 
-    private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int ronda, int numero, ArrayList<Integer> jaHaSortit) {
+    //Avanço partida generant un numero aleatori del 1 al 100. Comprobo si ja ha sortit miran una ArrayList de Integers
+    //que he creat previament i, en cas positiu, el busco dintre de cada matriu.
+    //
+    //Haig de sumar las rondas aquí perque si ho feia en el Main sumaba inclus les rondes on trobava un numero repetit
+    //i les rondes podien pujar fins a les 300, Lo mateix amb el sleep i els sysos.
+    private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int numero, ArrayList<Integer> jaHaSortit) throws InterruptedException {
 
         numero = rand.nextInt(1,101);
         String a = "";
@@ -188,12 +206,20 @@ public class Bingo {
             encontrarNumero(jugador1,numero);
             encontrarNumero(jugador2,numero);
             encontrarNumero(salidaNumeros,numero);
-
+            ronda++;
             llenarPartida(partida, salidaNumeros, jugador1, jugador2, ronda, numero);
             imprimirTablero(partida);
+
+            TimeUnit.SECONDS.sleep(2);
+            System.out.println();
+            System.out.println();
+            System.out.println();
         }
     }
 
+
+    //Comrpobo si las matrius tenen el numero que ha sortit i els afegeix-ho una X al penúltim carácter
+    //per fer-ho mes estétic.
     private static void encontrarNumero(StringBuilder[][] jugador, int numero) {
         for(int i = 1; i < jugador.length; i+=2){
             for(int j = 1; j < jugador[0].length; j+=2){
@@ -210,6 +236,7 @@ public class Bingo {
         }
     }
 
+    //Numero las caselles del Taulell principal amb tots el numeros.
     private static void numerarCasillas(StringBuilder[][] salidaNumeros) {
         int cont = 1;
         for(int i = 1; i <salidaNumeros.length; i+=2){
@@ -225,13 +252,8 @@ public class Bingo {
         }
     }
 
-    private static void tacharNumeros(StringBuilder[][] partida, int numero, boolean filaJ1, boolean filaJ2, boolean bingo) {
-        for(int i = 0; i < partida.length; i++){
-            for(int j = 0; j < partida[0].length; j++){
-
-            }
-        }
-    }
+    //Aqui hi ha una matriu de matrius. Dintre de una matriu mes gran he ficat tant la salidaNumeros, jugador1 i jugador2
+    // deixant una columna en mig amb un espai bastant ample per tal de distingir be el taulell dels jugadors.
 
     private static void llenarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int ronda, int numero) {
         for(int i = 0; i < partida.length; i++){
@@ -278,6 +300,8 @@ public class Bingo {
         }
     }
 
+
+    //Aqui comprobo la columna on ens trobem del cartró dels jugadors. Segons el cartró li poso un minim o un maxim dintre de una desena.
     private static void llenarVacias(StringBuilder[][] tablero) {
         int contVacias = 0;
         int min = 0;
@@ -335,38 +359,36 @@ public class Bingo {
            }
 
            //Vaig ficant els numeros en ordre ascendent
-            int contadorLlenas = 0;
            for(int i = 1; i < tablero.length; i+=2){
                if(num1 > 9) {
                    if (tablero[i][j].toString().equals("      ")) {
-                       if (num1 < num2 && contadorLlenas == 0) {
+                       if (num1 < num2 ) {
                            tablero[i][j] = new StringBuilder(num1+"    ");
-                           contadorLlenas++;
-                       } else if (num1 > num2 && contadorLlenas == 0) {
+                       } else if (num1 > num2) {
                            tablero[i][j] = new StringBuilder(num2+"    ");
-                           contadorLlenas++;
-                       } else if (num1 > num2 && contadorLlenas != 0) {
+
+                       } else if (num1 > num2 ) {
                            tablero[i][j] = new StringBuilder(num1+"    ");
-                           contadorLlenas++;
-                       } else if (num1 < num2 && contadorLlenas != 0) {
+
+                       } else if (num1 < num2 ) {
                            tablero[i][j] = new StringBuilder(num2+"    ");
-                           contadorLlenas++;
+
                        }
                    }
                } else {
                    if (tablero[i][j].toString().equals("      ")) {
-                       if (num1 < num2 && contadorLlenas == 0) {
+                       if (num1 < num2 ) {
                            tablero[i][j] = new StringBuilder(num1+"     ");
-                           contadorLlenas++;
-                       } else if (num1 > num2 && contadorLlenas == 0) {
+
+                       } else if (num1 > num2 ) {
                            tablero[i][j] = new StringBuilder(num2+"     ");
-                           contadorLlenas++;
-                       } else if (num1 > num2 && contadorLlenas != 0) {
+
+                       } else if (num1 > num2 ) {
                            tablero[i][j] = new StringBuilder(num1+"     ");
-                           contadorLlenas++;
-                       } else if (num1 < num2 && contadorLlenas != 0) {
+
+                       } else if (num1 < num2 ) {
                            tablero[i][j] = new StringBuilder(num2+"     ");
-                           contadorLlenas++;
+
                        }
                    }
                }
@@ -376,6 +398,7 @@ public class Bingo {
     }
 
     //Buidar les caselles
+    //Miro la cantitat de "buits" que hi ha a les files, han de haver-hi exactament 5. Sino, faig bucle fins que surtin.
 
     private static void vaciarCasillas(StringBuilder[][] tablero) {
         int contX = 0;
@@ -436,6 +459,7 @@ public class Bingo {
         }
     }
 
+    //Aqui simplement conto la cuantitat de caselles buides per després poder mirar si aplicar l'algoritme.
     private static int contarX(StringBuilder[][] tablero, int j,String blank) {
         int contColumnas = 0;
         for(int i = 1; i < tablero.length; i+=2){
