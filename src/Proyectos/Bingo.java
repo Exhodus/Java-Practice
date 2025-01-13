@@ -12,6 +12,7 @@ public class Bingo {
     static int ronda = 0;
     static boolean bingo = false;
     static boolean fila = false;
+    static ArrayList<Integer> jaHaSortit = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -101,7 +102,7 @@ public class Bingo {
             //Miro si hi ha bingo o fila en negatiu per tal de continuar en el bucle.
             //Declaro 2 variables diferents per cada jugador per controlar en cas de empat tant en files com en bingo.
             while (!bingo || !fila) {
-                avanzarPartida(partida, salidaNumeros, jugador1, jugador2, numero, jaHaSortit);
+                avanzarPartida(partida, salidaNumeros, jugador1, jugador2, numero);
                 filaJ1 = isFila(jugador1);
                 filaJ2 = isFila(jugador2);
 
@@ -196,10 +197,9 @@ public class Bingo {
     //
     //Haig de sumar las rondas aquí perque si ho feia en el Main sumaba inclus les rondes on trobava un numero repetit
     //i les rondes podien pujar fins a les 300, Lo mateix amb el sleep i els sysos.
-    private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int numero, ArrayList<Integer> jaHaSortit) throws InterruptedException {
+    private static void avanzarPartida(StringBuilder[][] partida, StringBuilder[][] salidaNumeros, StringBuilder[][] jugador1, StringBuilder[][] jugador2, int numero) throws InterruptedException {
 
         numero = rand.nextInt(1,101);
-        String a = "";
 
         if(!jaHaSortit.contains(numero)) {
             jaHaSortit.add(numero);
@@ -303,7 +303,6 @@ public class Bingo {
 
     //Aqui comprobo la columna on ens trobem del cartró dels jugadors. Segons el cartró li poso un minim o un maxim dintre de una desena.
     private static void llenarVacias(StringBuilder[][] tablero) {
-        int contVacias = 0;
         int min = 0;
         int max = 0;
         for(int j = 1; j < tablero[0].length; j+= 2){
