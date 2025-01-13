@@ -7,27 +7,15 @@ public class Memory {
     static Scanner scan = new Scanner(System.in);
     static Random rand = new Random();
 
-    //Estatica perque un cop inicialitzada no canviará en tot el joc. Al contrari que la següent
-    //que anirá consultant aquesta constantment.
-    //static String[][] tableroBase;
-
-    //Faig Aquesta Array Statica perque l'utilitzaré més endevant per anar omplint las matrius.
-    static String[] lletres = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N",
-            "O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-
     static int files;
     static int cols;
-
-    static Jugadors player1 = new Jugadors();
-    static Jugadors player2 = new Jugadors();
-
 
     public static void main(String[] args) {
         boolean sortir = false;
 
-        //inicialització
         Jugadors player1 = new Jugadors();
         Jugadors player2 = new Jugadors();
+        //inicialització
         player1.nom = "player 1";
         player2.nom = "player 2";
         player1.numPunts = 0;
@@ -55,8 +43,8 @@ public class Memory {
                 "                                                                                     '..'         \n");
 
 
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        System.out.println();
+        System.out.println();
 
         //menú amb 4 opcions
 
@@ -82,6 +70,7 @@ public class Memory {
                     break;
                 case 4:
                     sortir = true;
+                    System.out.println("A REVEURE!");
                     break;
             }
         }
@@ -92,11 +81,9 @@ public class Memory {
 
         boolean partida = false;
         String siNo;
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        System.out.println();
         System.out.println("DE CUANT VOLS LA MATRIU? ");
-        System.out.print("ALSADA: ");
+        System.out.print("ALÇADA: ");
         files = scan.nextInt();
         System.out.print("AMPLADA: ");
         cols = scan.nextInt();
@@ -127,22 +114,26 @@ public class Memory {
             } else {
                 System.out.println("TORN DE "+player2.nom);
                 boolean pasaturno = juega1(player2, tableroJuego, tableroBase);
-                if(seFini(tableroJuego, tableroBase)){
+                if(seFini(tableroJuego, tableroBase) && !pasaturno){
                     partida = true;
                     ganador = mirarPuntos(player1, player2);
-                } else {
+                } else if(pasaturno){
                     turno = 0;
                 }
             }
         }
 
-        System.out.println("GUANYADOR/A:  "+ganador.toUpperCase()+"!!!!!");
+        if(ganador.equals("EMPAT!")){
+            System.out.println("EMPAT TÈCNIC");
+        } else {
+         System.out.println("GUANYADOR/A:  "+ganador.toUpperCase()+"!!!!!");
+        }
         System.out.println();
         System.out.println();
         System.out.println("VOLS TORNAR A JUGAR? ");
         System.out.print("S/N: ");
 
-        //tornar a jugar
+        //elputobug
         scan.nextLine();
         siNo = scan.nextLine();
         if(siNo.equals("S")|| siNo.equals("s")){
@@ -173,8 +164,10 @@ public class Memory {
 
     private static String mirarPuntos(Jugadors player1, Jugadors player2) {
         if (player1.numPunts > player2.numPunts){
+            player1.numVictor++;
             return player1.nom;
         } else if (player1.numPunts < player2.numPunts){
+            player2.numVictor++;
             return player2.nom;
         } else {
             return "EMPAT!";
@@ -197,6 +190,11 @@ public class Memory {
         if(!estoyFuerisima(tableroJuego,files,cols) && !yaDestapada(tableroBase,tableroJuego,files,cols)){
             destapar(tableroJuego,tableroBase,files,cols);
             printTableros(tableroJuego);
+        } else {
+            System.out.println("Casella Fora del tauler de JOC!!! ");
+            System.out.println("---> FALTA DE -5 PUNTS!!! <---");
+            player.numPunts -=  5;
+            juega1(player,tableroJuego,tableroBase);
         }
 
         System.out.println("ESCULL UN ALTRE -->");
@@ -208,24 +206,23 @@ public class Memory {
         if(!estoyFuerisima(tableroJuego,files,cols) && !yaDestapada(tableroBase,tableroJuego,files,cols)){
             destapar(tableroJuego,tableroBase,files,cols);
             printTableros(tableroJuego);
+        } else {
+            System.out.println("Casella Fora del tauler de JOC!!! ");
+            System.out.println("---> FALTA DE -5 PUNTS!!! <---");
+            player.numPunts -=  5;
+            juega1(player,tableroJuego,tableroBase);
         }
 
         
         if(tableroJuego.tablero[files1][cols1].equals(tableroJuego.tablero[files][cols])){
             System.out.println("---> +10 PUNTS! <---");
             System.out.println();
-            System.out.println("ET TORNA A TOCAR! -->");
             player.numPunts += 10;
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             printTableros(tableroJuego);
             return false;
         } else {
             tapar(tableroJuego,files,files1,cols1,cols);
             System.out.println("OOH Mala SORT!");
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            printTableros(tableroJuego);
             return true;
         }
     }
@@ -276,6 +273,8 @@ public class Memory {
     }
 
     private static void llenarTableroBase(Tableros tableroBase, int alsada, int ample) {
+        String[] lletres = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N",
+                "O","P","Q","R","S","T","U","V","W","X","Y","Z"};
 
         int lletresNecesaries = (alsada*ample)/2;
 
@@ -303,23 +302,17 @@ public class Memory {
     }
 
     private static void enseñarVictorias(Jugadors player1, Jugadors player2) {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         System.out.println();
         System.out.println("_____________");
         System.out.println("| "+player1.nom+" |     VICTORIAS: "+player1.numVictor);
         System.out.println("_____________");
         System.out.println();
         System.out.println("_____________");
-        System.out.println("| "+player2.nom+" |     VICTORIAS: "+player1.numVictor);
+        System.out.println("| "+player2.nom+" |     VICTORIAS: "+player2.numVictor);
         System.out.println("_____________");
     }
 
     private static void configurar(Jugadors player1, Jugadors player2) {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         System.out.println("CONFIGURACIO: ");
         System.out.println("     1. - CAMBIAR NOM");
         System.out.println("     2. - RESETEAR VICTORIAS");
@@ -335,7 +328,7 @@ public class Memory {
                 player2.nom = scan.nextLine();
                 break;
             case 2:
-                System.out.println("ESTAS SEGUR? EL JUGADOR 1 TE "+player1.numVictor+" I EL JUGADOR 2 TE "+player2.numVictor);
+                System.out.println("ESTAS SEGUR? "+player1.nom.toUpperCase()+" TE "+player1.numVictor+" I "+player2.nom.toUpperCase()+" TE "+player2.numVictor);
                 System.out.println("S/N");
                 String siNo = scan.nextLine();
                 if(siNo.equals("S") || siNo.equals("s")){
