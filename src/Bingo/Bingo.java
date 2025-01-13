@@ -1,4 +1,4 @@
-package Proyectos;
+package Bingo;
 
 import java.util.ArrayList;
 import java.util.Random;

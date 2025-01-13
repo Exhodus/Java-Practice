@@ -18,38 +18,56 @@ public class Memory {
     static int files;
     static int cols;
 
+    static Jugadors player1 = new Jugadors();
+    static Jugadors player2 = new Jugadors();
+
+
     public static void main(String[] args) {
         boolean sortir = false;
 
+        //inicialització
         Jugadors player1 = new Jugadors();
         Jugadors player2 = new Jugadors();
+        player1.nom = "player 1";
+        player2.nom = "player 2";
+        player1.numPunts = 0;
+        player2.numPunts = 0;
+        player1.numVictor = 0;
+        player2.numVictor = 0;
+
         Tableros tableroBase = new Tableros();
         Tableros tableroJuego = new Tableros();
 
 
+        System.out.println("\n" +
+                "                                                            .-'''-.                               \n" +
+                "                                                           '   _    \\                             \n" +
+                " __  __   ___           __.....__       __  __   ___     /   /` '.   \\                            \n" +
+                "|  |/  `.'   `.     .-''         '.    |  |/  `.'   `.  .   |     \\  '            .-.          .- \n" +
+                "|   .-.  .-.   '   /     .-''\"'-.  `.  |   .-.  .-.   ' |   '      |  ' .-,.--.    \\ \\        / / \n" +
+                "|  |  |  |  |  |  /     /________\\   \\ |  |  |  |  |  | \\    \\     / /  |  .-. |    \\ \\      / /  \n" +
+                "|  |  |  |  |  |  |                  | |  |  |  |  |  |  `.   ` ..' /   | |  | |     \\ \\    / /   \n" +
+                "|  |  |  |  |  |  \\    .-------------' |  |  |  |  |  |     '-...-'`    | |  | |      \\ \\  / /    \n" +
+                "|  |  |  |  |  |   \\    '-.____...---. |  |  |  |  |  |                 | |  '-        \\ `  /     \n" +
+                "|__|  |__|  |__|    `.             .'  |__|  |__|  |__|                 | |             \\  /      \n" +
+                "                      `''-...... -'                                     | |             / /       \n" +
+                "                                                                        |_|         |`-' /        \n" +
+                "                                                                                     '..'         \n");
+
+
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+
+        //menú amb 4 opcions
+
         while (!sortir){
-            System.out.println("\n" +
-                    "                                                            .-'''-.                               \n" +
-                    "                                                           '   _    \\                             \n" +
-                    " __  __   ___           __.....__       __  __   ___     /   /` '.   \\                            \n" +
-                    "|  |/  `.'   `.     .-''         '.    |  |/  `.'   `.  .   |     \\  '            .-.          .- \n" +
-                    "|   .-.  .-.   '   /     .-''\"'-.  `.  |   .-.  .-.   ' |   '      |  ' .-,.--.    \\ \\        / / \n" +
-                    "|  |  |  |  |  |  /     /________\\   \\ |  |  |  |  |  | \\    \\     / /  |  .-. |    \\ \\      / /  \n" +
-                    "|  |  |  |  |  |  |                  | |  |  |  |  |  |  `.   ` ..' /   | |  | |     \\ \\    / /   \n" +
-                    "|  |  |  |  |  |  \\    .-------------' |  |  |  |  |  |     '-...-'`    | |  | |      \\ \\  / /    \n" +
-                    "|  |  |  |  |  |   \\    '-.____...---. |  |  |  |  |  |                 | |  '-        \\ `  /     \n" +
-                    "|__|  |__|  |__|    `.             .'  |__|  |__|  |__|                 | |             \\  /      \n" +
-                    "                      `''-...... -'                                     | |             / /       \n" +
-                    "                                                                        |_|         |`-' /        \n" +
-                    "                                                                                     '..'         \n");
 
-
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             System.out.println("MENU: ");
             System.out.println("     1. - JUGAR");
             System.out.println("     2. - CONFIGURACIO");
             System.out.println("     3. - VICTORIES");
+            System.out.println("     4. - SORTIR");
+
 
             int opcio = scan.nextInt();
             switch (opcio){
@@ -62,16 +80,18 @@ public class Memory {
                 case 3:
                     enseñarVictorias(player1,player2);
                     break;
-                default:
+                case 4:
                     sortir = true;
+                    break;
             }
         }
     }
 
+    //funció de partida
     private static void jugar(Jugadors player1, Jugadors player2, Tableros tableroBase, Tableros tableroJuego) {
 
         boolean partida = false;
-        String siNo = "";
+        String siNo;
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
@@ -94,18 +114,19 @@ public class Memory {
 
         while (!partida) {
             if (turno == 0) {
+
                 System.out.println("TORN DE "+player1.nom);
                 System.out.println();
-                juega1(player1, tableroJuego, tableroBase);
-                if(seFini(tableroJuego, tableroBase)){
+                boolean pasaturno = juega1(player1, tableroJuego, tableroBase);
+                if(seFini(tableroJuego, tableroBase) && !pasaturno){
                     partida = true;
                     ganador = mirarPuntos(player1, player2);
-                } else {
+                } else if(pasaturno){
                     turno = 1;
                 }
             } else {
                 System.out.println("TORN DE "+player2.nom);
-                juega1(player2, tableroJuego, tableroBase);
+                boolean pasaturno = juega1(player2, tableroJuego, tableroBase);
                 if(seFini(tableroJuego, tableroBase)){
                     partida = true;
                     ganador = mirarPuntos(player1, player2);
@@ -115,10 +136,14 @@ public class Memory {
             }
         }
 
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        System.out.println("GUANYADOR/A:  "+ganador.toUpperCase()+"!!!!!");
+        System.out.println();
+        System.out.println();
         System.out.println("VOLS TORNAR A JUGAR? ");
         System.out.print("S/N: ");
+
+        //tornar a jugar
+        scan.nextLine();
         siNo = scan.nextLine();
         if(siNo.equals("S")|| siNo.equals("s")){
             jugar(player1,player2,tableroBase,tableroJuego);
@@ -157,9 +182,9 @@ public class Memory {
     }
 
 
-    private static void juega1(Jugadors player, Tableros tableroJuego, Tableros tableroBase) {
+    private static boolean juega1(Jugadors player, Tableros tableroJuego, Tableros tableroBase) {
 
-        printTableros(tableroBase);
+        printTableros(tableroJuego);
         System.out.println("ESCULL UNA CASELLA -->");
         System.out.print("FILA: ");
         files = scan.nextInt();
@@ -190,15 +215,19 @@ public class Memory {
             System.out.println("---> +10 PUNTS! <---");
             System.out.println();
             System.out.println("ET TORNA A TOCAR! -->");
-            player.numPunts +=10;
-            juega1(player, tableroJuego, tableroBase);
+            player.numPunts += 10;
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            printTableros(tableroJuego);
+            return false;
         } else {
             tapar(tableroJuego,files,files1,cols1,cols);
             System.out.println("OOH Mala SORT!");
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            printTableros(tableroJuego);
+            return true;
         }
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        printTableros(tableroJuego);
     }
 
     private static void tapar(Tableros tableroJuego, int files, int files1, int cols1, int cols) {

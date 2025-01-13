@@ -5,82 +5,72 @@ import java.util.Scanner;
 public class JocDeLaVida {
     static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
+
         int rows = scan.nextInt();
         int cols = scan.nextInt();
+        int[][] mat1 = new int[rows][cols];
+        int[][] mat2 = new int[rows][cols];
         scan.nextLine();
 
-        int[][] matriu = new int[rows][cols];
-        int[][] matriu2 = new int[rows][cols];
-
-        llenarMatriz(matriu);
-        followingDay(matriu,matriu2);
-        printMat(matriu2);
+        llenarMatriz(mat1);
+        gen2(mat1,mat2);
+        printMat(mat2);
 
     }
 
-    private static void printMat(int[][] matriu2) {
-        for(int i = 0; i < matriu2.length; i++){
-            for(int j = 0; j < matriu2[0].length; j++){
-                System.out.print(matriu2[i][j]);
+    private static void printMat(int[][] mat2) {
+        for(int i = 0; i < mat2.length;i++){
+            for(int j = 0; j < mat2[0].length; j++){
+                System.out.print(mat2[i][j]);
             }
             System.out.println();
         }
     }
 
-    private static void followingDay(int[][] matriu, int[][] matriu2) {
-        for(int i = 0; i < matriu.length; i++){
-            for(int j = 0; j < matriu[0].length; j++){
-               int num1;
-               if(matriu[i][j] == 1){
-                   num1 = chekeameEsta(matriu,i,j);
-                   if(num1 < 2){
-                       matriu2[i][j] = 0;
-                   } else {
-                       matriu2[i][j] = 1;
-                   }
-               } else {
-                   num1 = chekeameEsta(matriu,i,j);
-                   if(num1 > 2){
-                       matriu2[i][j] = 1;
-                   } else {
-                       matriu2[i][j] = 0;
-                   }
-               }
+    private static void llenarMatriz(int[][] mat1) {
+        for(int i = 0; i < mat1.length;i++){
+            String[] entrada = scan.nextLine().split("");
+            for(int j = 0; j < mat1[0].length; j++){
+                mat1[i][j] = Integer.parseInt(entrada[j]);
+            }
+        }
+    }
+    private static void gen2(int[][] mat1, int[][] mat2) {
+        for(int i = 0; i < mat1.length;i++){
+            for(int j = 0; j < mat1[0].length; j++){
+                int cuantos1 =mirarVecinos(mat1,mat2,i,j);
+                if(cuantos1 == 2 ||cuantos1 == 3 ){
+                    mat2[i][j] = 1;
+                } else {
+                    mat2[i][j] = 0;
+                }
             }
         }
     }
 
-    private static int chekeameEsta(int[][] matriu, int i, int j) {
+    private static int mirarVecinos(int[][] mat1, int[][] mat2,int i, int j) {
 
-        int res = 0;
-
+        int cuantos1 = 0;
         for(int k = i-1; k <= i+1; k++){
-            for(int l = j-1; l < j+1; l++){
-                if(!estoyFuerisima(matriu,l,k)){
-                    if(matriu[l][k] == 1){
-                        res++;
+            for(int l = j-1; l <=j+1; l++){
+                boolean ohno = estoyFuerisima(mat2,k,l);
+                if(!ohno){
+                    if((k != i && l != j) && mat1[k][j] == 1){
+                        cuantos1++;
                     }
                 }
             }
         }
-        return res;
+
+        return cuantos1;
     }
 
-    private static boolean estoyFuerisima(int[][] matriu, int i, int j) {
-        if(i < 0 || i > matriu.length-1 || j < 0 || j > matriu[0].length-1){
+    private static boolean estoyFuerisima(int[][] mat2, int k, int l) {
+        if(k < 0 || k > mat2.length-1|| l < 0 || l > mat2[0].length-1){
             return true;
         } else {
             return false;
         }
     }
 
-    private static void llenarMatriz(int[][] matriu) {
-
-        for(int i = 0; i < matriu.length; i++){
-            String[] entrada = scan.nextLine().split("");
-            for(int j = 0; j < matriu[0].length; j++){
-                matriu[i][j] = Integer.parseInt(entrada[j]);
-            }
-        }
-    }
 }
