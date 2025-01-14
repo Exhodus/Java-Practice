@@ -184,35 +184,48 @@ public class Memory {
         System.out.print("COLUMNA: ");
         cols = scan.nextInt();
 
+        boolean totOk = false;
         int files1 = files;
         int cols1 = cols;
 
-        if(!estoyFuerisima(tableroJuego,files,cols) && !yaDestapada(tableroBase,tableroJuego,files,cols)){
-            destapar(tableroJuego,tableroBase,files,cols);
-            printTableros(tableroJuego);
-        } else {
-            System.out.println("Casella Fora del tauler de JOC!!! ");
-            System.out.println("---> FALTA DE -5 PUNTS!!! <---");
-            player.numPunts -=  5;
-            juega1(player,tableroJuego,tableroBase);
+        while (!totOk) {
+
+            if (!estoyFuerisima(tableroJuego, files, cols) && !yaDestapada(tableroBase, tableroJuego, files, cols)) {
+                destapar(tableroJuego, tableroBase, files, cols);
+                printTableros(tableroJuego);
+                totOk = true;
+            } else if(estoyFuerisima(tableroJuego, files, cols)){
+                System.out.println("Casella Fora del tauler de JOC!!! ");
+                System.out.println("---> FALTA DE -5 PUNTS!!! <---");
+                player.numPunts -= 5;
+                juega1(player, tableroJuego, tableroBase);
+            } else if (yaDestapada(tableroBase, tableroJuego, files, cols)) {
+                System.out.println("Esta casilla ya se ha destapado! escoje otra:");
+            }
         }
 
-        System.out.println("ESCULL UN ALTRE -->");
-        System.out.print("FILA: ");
-        files = scan.nextInt();
-        System.out.print("COLUMNA: ");
-        cols = scan.nextInt();
+        totOk = false;
+        while (!totOk) {
 
-        if(!estoyFuerisima(tableroJuego,files,cols) && !yaDestapada(tableroBase,tableroJuego,files,cols)){
-            destapar(tableroJuego,tableroBase,files,cols);
-            printTableros(tableroJuego);
-        } else {
-            System.out.println("Casella Fora del tauler de JOC!!! ");
-            System.out.println("---> FALTA DE -5 PUNTS!!! <---");
-            player.numPunts -=  5;
-            juega1(player,tableroJuego,tableroBase);
+            System.out.println("ESCULL UN ALTRE -->");
+            System.out.print("FILA: ");
+            files = scan.nextInt();
+            System.out.print("COLUMNA: ");
+            cols = scan.nextInt();
+
+            if (!estoyFuerisima(tableroJuego, files, cols) && !yaDestapada(tableroBase, tableroJuego, files, cols)) {
+                destapar(tableroJuego, tableroBase, files, cols);
+                printTableros(tableroJuego);
+                totOk = true;
+            } else if(estoyFuerisima(tableroJuego, files, cols)){
+                System.out.println("Casella Fora del tauler de JOC!!! ");
+                System.out.println("---> FALTA DE -5 PUNTS!!! <---");
+                player.numPunts -= 5;
+                juega1(player, tableroJuego, tableroBase);
+            } else if (yaDestapada(tableroBase, tableroJuego, files, cols)) {
+                System.out.println("Aquesta casella ja s'ha descovert.+");
+            }
         }
-
         
         if(tableroJuego.tablero[files1][cols1].equals(tableroJuego.tablero[files][cols])){
             System.out.println("---> +10 PUNTS! <---");
