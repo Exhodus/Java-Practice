@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 public class LightsOut {
     static Scanner scan = new Scanner(System.in);
-    static String[][] taulell = new String[3][3];
+    static String[][] taulell;
 
     public static void main(String[] args) {
 
-        String nomJugador = null;
+        String nomJugador = "Jugador";
         Integer N = 3;
+
+        taulell = new String[N+N+1][N+N+1];
 
         boolean sortir = false;
         boolean acabarConfi = false;
@@ -103,41 +105,54 @@ public class LightsOut {
         if(!acabarConfi) {
             InicialitzarTaulell();
         }
-        HashMap<String,String> caselles = iniDiccionari(taulell,N);
+        HashMap<Integer,String> caselles = iniDiccionari(taulell,N);
         while (!win) {
             mostrar();
-            Posicio p = seleccionarPosicio();
-            String[] entrada = {Integer.toString(p.files), Integer.toString(p.columnes)};
-            String numCasella = sacarValorStringArrayToString(entrada,caselles);
-            activar(taulell, numCasella, caselles);
+            int p = seleccionarPosicio(N);
+            Posicio posicio = mirarPosicio(p,caselles);
+            activar(taulell, posicio);
             win = comprovarVictoria(taulell, N);
             nMoviments++;
         }
       System.out.println("Enhorabona, " + nomJugador + ", has guanyat en " + nMoviments + " moviments");
     }
 
-    private static String sacarValorStringArrayToString(String[] entrada, HashMap<String,String> caselles) {
-        String sortida = entrada[0]+entrada[1];
-        return sortida;
+    private static Posicio mirarPosicio(int p, HashMap<Integer, String> caselles) {
+            Posicio fc = new Posicio();
+            String[] separats = caselles.get(p).split(" ");
+
+            fc.files = Integer.parseInt(separats[0]);
+            fc.columnes = Integer.parseInt(separats[1]);
+            return fc;
     }
 
     private static  HashMap iniDiccionari(String[][] taulell, Integer N) {
-        HashMap<String, String> casellas = new HashMap<>();
+        HashMap<Integer, String> casellas = new HashMap<>();
         int cont = 1;
         for(int i = 1; i < taulell.length; i+=2){
             for(int j = 1; j < taulell[0].length; j+=2){
-                casellas.put(i+" "+j,cont+"");
+                casellas.put(cont,i+" "+j);
+                cont++;
             }
         }
-
-        System.out.println(casellas);
 
         return  casellas;
     }
 
-    private static void activar(String[][] taulell, String p, HashMap<String, String> caselles) {
+    private static void activar(String[][] taulell, Posicio p) {
         // TODO Auto-generated method stub
 
+        for(int i = p.files-2; i <= p.files+2; i+=2){
+            for(int j = p.columnes-2; j <= p.columnes+2; j+=2){
+                if(!estoyFuerisima(i,j,taulell) && mirarEsquinas(i,j,taulell,p)){
+                    if(taulell[i][j].equals(" \u2588 ")){
+                        taulell[i][j] = "   ";
+                    } else{
+                        taulell[i][j] = " \u2588 ";
+                    }
+                }
+            }
+        }
 
     }
 
@@ -151,10 +166,10 @@ public class LightsOut {
      */
 
     private static boolean mirarEsquinas(int i, int j, String[][] taulell, Posicio p) {
-        if((i == p.files-1 && j == p.columnes) ||
-                (i == p.files && j == p.columnes-1) ||
-                (i == p.files && j == p.columnes+1) ||
-                (i == p.files+1 && j == p.columnes) ||
+        if((i == p.files-2 && j == p.columnes) ||
+                (i == p.files && j == p.columnes-2) ||
+                (i == p.files && j == p.columnes+2) ||
+                (i == p.files+2 && j == p.columnes) ||
                 (i == p.files && j == p.columnes)) {
             return true;
         } else {
@@ -189,21 +204,25 @@ public class LightsOut {
 
 
     /**
-     * Arreglar esto, Tiene que ser un solo input con el numero de la casilla.
+     *
      * @return
      */
-    private static Posicio seleccionarPosicio() {
+    private static int seleccionarPosicio(Integer N) {
         // TODO Auto-generated method stub
-        Posicio p = new Posicio();
-        p.columnes = 0;
-        p.files = 0;
+        int num = 0;
 
-        System.out.println("Escull Posició: (Recorda, comença en 0)");
-        System.out.println("Files: ");
-        p.files = scan.nextInt();
-        System.out.println("Columnes: ");
-        p.columnes = scan.nextInt();
-        return p;
+        while (true) {
+            System.out.println("Escull la casella: (del 1 al " + (N * N) + ").");
+            System.out.println("Casella: ");
+            num = scan.nextInt();
+            if(num <= N*N && num > 0 ){
+                return num;
+            } else {
+                System.out.println("El numero es massa gran o massa petit!, Torna-ho a intentar. Recorda:");
+            }
+
+
+        }
     }
 
     /**
