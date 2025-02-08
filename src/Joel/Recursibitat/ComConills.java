@@ -9,25 +9,17 @@ public class ComConills {
         int casos = scan.nextInt();
         int num;
 
-        for(int i = 0; i < casos; i++){
+        for (int i = 0; i < casos; i++) {
             num = scan.nextInt();
-            int resultat = calculFibonacci(num);
-            System.out.println(resultat);
+            int aux = 1;
+           // System.out.println(fibonacci(num, aux));
         }
-    }
-
-    private static int calculFibonacci(int num) {
-        int suma = 1;
-        int anterior = 1;
-        int aux = 0;
-        int cont = 1;
-
-        while (suma != num){
-            aux = anterior;
-            suma += anterior;
-
-        }
-
-        return  suma;
     }
 }
+
+//    private static int fibonacci(int num, int aux) {
+//        if(num == 0){
+//
+//        }
+//    }
+//}
