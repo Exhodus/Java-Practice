@@ -17,7 +17,7 @@ public class Exercici2 {
         if(frase.length() == 1){
             return true;
         } else {
-            return frase < c
+            return false;
         }
     }
 }
