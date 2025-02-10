@@ -15,38 +15,34 @@ public class BuscaminasMain {
     public static void main(String[] args) {
 
         String[][] tablero = new String[10][10];
-        Jugador player = new Jugador();
-        int minas = 15;
 
-        int opcion = -1;
+
+        int opcion = 0;
 
         System.out.println("Bienvenido al Buscaminas!");
         System.out.println("Menu: ");
-        System.out.println("      1. Mostrar Ajuda.");
-        System.out.println("      2. Opcions.");
-        System.out.println("      3. Jugar Partida.");
-        System.out.println("      4. Llista de Guanyadors.");
-        System.out.println("      5. Salir.");
+        System.out.println("      1. Jugar.");
+        System.out.println("      1. Configuración.");
+        System.out.println("      1. Estadísticas.");
+        System.out.println("      1. Salir.");
 
-
-        while (opcion!= 0){
+        while (opcion!= 4){
             opcion = scan.nextInt();
-            scan.nextLine();
             switch (opcion){
 
                 case 1:
-                    ajuda();
-                    break;
-                case 2:
-                    configuracion(tablero,player,minas);
-                    break;
-                case 3:
                     initTablero(tablero);
-                    plantarMinas(tablero,minas);
+                    plantarMinas(tablero);
                     ponerNumeros(tablero);
                     printTablero(tablero);
                     jugar(tablero);
                     printTablero(tablero);
+                    break;
+                case 2:
+                    //configuracion(tablero);
+                    break;
+                case 3:
+                   // estadisticas();
                     break;
                 case 4:
                     System.out.println("Que vaya bien! Adiós!");
@@ -54,38 +50,10 @@ public class BuscaminasMain {
 
             }
         }
-    }
 
-    private static void configuracion(String[][] tablero, Jugador player, int minas) {
-        System.out.println("Configuració de jugador: ");
-        System.out.print("Nom: ");
-        player.nombre = scan.nextLine();
-        System.out.printf("Dificultat: ");
-        System.out.println(" 1- fàcil (7 mines)");
-        System.out.println(" 2- normal (15 mines");
-        System.out.println(" 3- dificil (30 mines");
-        int dificultat = scan.nextInt();
 
-        switch (dificultat) {
-            case 1:
-                minas = 7;
-                break;
-            case 2:
-                minas = 15;
-                break;
-            case 3:
-                minas = 30;
-                break;
-            default:
-                minas = 15;
-                break;
-        }
-    }
 
-    private static void ajuda() {
-        System.out.println("Buscaminas!");
-        System.out.println("En prémer sobre les cel·les, apareix una zona revelada i " +
-                "números que determinen la proximitat d'una mina");
+
     }
 
     private static void jugar(String[][] tablero) {
@@ -162,7 +130,7 @@ public class BuscaminasMain {
         }
     }
 
-    private static void plantarMinas(String[][] tablero, int minas) {
+    private static void plantarMinas(String[][] tablero) {
         /* \033 +
         NEGRO:      [30m
         ROJO:       [31m
@@ -174,7 +142,7 @@ public class BuscaminasMain {
         BLANCO:     [37m
          */
 
-
+        int minas = 15;
         while (minas > 0) {
             for (int i = 0; i < tablero.length; i++) {
                 for (int j = 0; j < tablero[0].length; j++) {

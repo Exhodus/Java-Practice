@@ -5,11 +5,14 @@ import java.util.Scanner;
 public class Fibonacci {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        int posicion = scan.nextInt();
-        System.out.println(fibonacci(posicion));
+        int casos = scan.nextInt();
+        for(int i = 0; i < casos; i++ ) {
+            long posicion = scan.nextInt();
+            System.out.println(fibonacci(posicion));
+        }
     }
 
-    private static int fibonacci(int posicion) {
+    private static long fibonacci(long posicion) {
         if(posicion <= -1){
             return -1;
         }
