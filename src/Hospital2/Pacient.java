@@ -21,6 +21,7 @@ public class Pacient extends Persona{
         if(!(this instanceof PacientHospitalitzat)){
             PacientHospitalitzat p = new PacientHospitalitzat(this.nom, this.diners, this.edat, this.gravetat);
             p.tractamentActual = tractament;
+            return p;
         } else {
             System.out.println("Aquest pacient ja està hospitalitzat");
             return (PacientHospitalitzat) this;
