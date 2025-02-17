@@ -3,19 +3,11 @@ package Hospital3;
 import java.util.ArrayList;
 
 public class Pacient extends Persona {
-    double diners;
-    int edat;
-    ArrayList<Simptoma> simptoma = new ArrayList<>();
-    Gravetat gravetat;
-    Planta planta;
-
-    public Pacient(Pacient p, String tractament){
-        PacientHospitalitzat pac = new PacientHospitalitzat(p.nom,p.edat);
-        pac.diesHospitalitzat = 0;
-        pac.diners = this.diners;
-        pac.gravetat = Gravetat.LLEU;
-        pac.planta = this.calcularPlanta();
-    }
+    private double diners;
+    private  int edat;
+    private  ArrayList<Simptoma> simptoma = new ArrayList<>();
+    private Gravetat gravetat;
+    private Planta planta;
 
     public PacientHospitalitzat hospitalitzat(String tractament){
         if(!(this instanceof PacientHospitalitzat)){

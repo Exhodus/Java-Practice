@@ -3,11 +3,11 @@ package Hospital3;
 import java.util.ArrayList;
 
 public class Metge extends Persona {
-    int anysTreballats;
-    double sou;
-    String departament;
-    Categoria categoria;
-    ArrayList<Pacient> pacientsAssignats = new ArrayList<>();
+    private int anysTreballats;
+    private double sou;
+    private String departament;
+    private Categoria categoria;
+    private ArrayList<Pacient> pacientsAssignats = new ArrayList<>();
 
     public void afegirPacient(Pacient pacient){
         this.pacientsAssignats.add(pacient);

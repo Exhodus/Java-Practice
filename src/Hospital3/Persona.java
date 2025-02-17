@@ -1,7 +1,7 @@
 package Hospital3;
 
 public class Persona {
-    String nom;
+    private String nom;
 
     public Persona(String nom) {
         this.nom = nom;

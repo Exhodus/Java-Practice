@@ -22,11 +22,7 @@ public class Pacient {
     }
 
     public Pacient(String nom, int edat){
-        this.nom = nom;
-        this.diners = 0;
-        this.gravetat = Gravetat.LLEU;
-        this.edat = edat;
-        this.calcularPlanta();
+        this(nom,0,edat,Gravetat.LLEU);
     }
 
     public Planta calcularPlanta(){

@@ -9,14 +9,6 @@ public class Pacient extends Persona{
     Gravetat gravetat;
     Planta planta;
 
-    public Pacient(Pacient p, String tractament){
-        PacientHospitalitzat pac = new PacientHospitalitzat(p.nom,p.edat);
-        pac.diesHospitalitzat = 0;
-        pac.diners = this.diners;
-        pac.gravetat = Gravetat.LLEU;
-        pac.planta = this.calcularPlanta();
-    }
-
     public PacientHospitalitzat hospitalitzat(String tractament){
         if(!(this instanceof PacientHospitalitzat)){
             PacientHospitalitzat p = new PacientHospitalitzat(this.nom, this.diners, this.edat, this.gravetat);
@@ -29,11 +21,12 @@ public class Pacient extends Persona{
     }
 
     public void afegirSimptoma(Simptoma s){
-        simptoma.add(s);
+        this.simptoma.add(s);
         if(this.gravetat.equals(Gravetat.LLEU) && !s.gravetat.equals(this.gravetat)){
             this.gravetat = s.gravetat;
         } else if(this.gravetat.equals(Gravetat.MODERARA)) {
             if(s.gravetat.equals(Gravetat.GREU)){
+
                 this.gravetat = s.gravetat;
             } else if (s.gravetat.equals(Gravetat.CRITICA)){
                 this.gravetat = s.gravetat;
