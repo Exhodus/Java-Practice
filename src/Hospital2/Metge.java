@@ -68,8 +68,7 @@ public class Metge extends Persona{
     }
 
     public Metge(String nom, int anysTreballats){
-        this(nom);
-
+        super(nom);
         for(int i = 0; i < anysTreballats; i++){
             this.augmentarAnysTreballats();
         }

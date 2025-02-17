@@ -1,4 +1,4 @@
-package Hospital2;
+package Hospital3;
 
 public class MainHospital {
 

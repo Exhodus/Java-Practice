@@ -1,9 +1,8 @@
-package Hospital1;
+package Hospital3;
 
 import java.util.ArrayList;
 
-public class Metge {
-    String nom;
+public class Metge extends Persona {
     int anysTreballats;
     double sou;
     String departament;
@@ -16,7 +15,7 @@ public class Metge {
 
     public boolean consulta(Pacient p){
         int preuBase = 10;
-        if(this.categoria == Categoria.RESIDENT){
+        if(this.categoria == Categoria.RESIDEN){
             preuBase*=2;
         } else if (this.categoria == Categoria.ESPECIALISTA){
             preuBase+=10;
@@ -42,42 +41,37 @@ public class Metge {
     }
 
     public Metge(){
-        this.nom = "Sense definir";
+        super();
         this.anysTreballats = 0;
         this.sou = 1000.0;
         this.departament = "Sense Departament";
     }
 
     public Metge(String nom, Categoria cat){
-        this.nom = nom;
+        super(nom);
         this.sou = 1000.0;
         this.anysTreballats = 0;
         this.categoria = cat;
     }
 
     public Metge(String nom, String departament, int souInicial, int anysTreballats){
-        this.nom = nom;
+        super(nom);
         this.departament = departament;
         this.sou = souInicial;
         this.anysTreballats = anysTreballats;
     }
 
     public Metge(String nom){
-        this.nom = nom;
+        super(nom);
         this.anysTreballats = 0;
         this.sou = 1000.0;
     }
 
     public Metge(String nom, int anysTreballats){
-        this(nom);
-
+        super(nom);
         for(int i = 0; i < anysTreballats; i++){
             this.augmentarAnysTreballats();
         }
-    }
-
-    public void diguesNom(){
-        System.out.println(this.nom);
     }
 
     public void infoMetge(){
