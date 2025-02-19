@@ -9,42 +9,15 @@ public class Metge extends Persona {
     private Categoria categoria;
     private ArrayList<Pacient> pacientsAssignats = new ArrayList<>();
 
-    public void afegirPacient(Pacient pacient){
-        this.pacientsAssignats.add(pacient);
-    }
 
-    public boolean consulta(Pacient p){
-        int preuBase = 10;
-        if(this.categoria == Categoria.RESIDEN){
-            preuBase*=2;
-        } else if (this.categoria == Categoria.ESPECIALISTA){
-            preuBase+=10;
-        }
 
-        if(p.edat < 15 || p.gravetat == Gravetat.CRITICA){
-            preuBase = 0;
-        }
-
-        if(preuBase <= p.diners){
-            p.diners -= preuBase;
-            afegirPacient(p);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void mostrarPacients(){
-        for(int i = 0; i < this.pacientsAssignats.size(); i++){
-            System.out.println(this.pacientsAssignats.get(i).nom+" "+this.pacientsAssignats.get(i).gravetat);
-        }
-    }
-
+    //Constructors
     public Metge(){
         super();
         this.anysTreballats = 0;
         this.sou = 1000.0;
         this.departament = "Sense Departament";
+        this.categoria = Categoria.INTERN;
     }
 
     public Metge(String nom, Categoria cat){
@@ -52,6 +25,7 @@ public class Metge extends Persona {
         this.sou = 1000.0;
         this.anysTreballats = 0;
         this.categoria = cat;
+        this.categoria = Categoria.INTERN;
     }
 
     public Metge(String nom, String departament, int souInicial, int anysTreballats){
@@ -59,6 +33,7 @@ public class Metge extends Persona {
         this.departament = departament;
         this.sou = souInicial;
         this.anysTreballats = anysTreballats;
+        this.categoria = Categoria.INTERN;
     }
 
     public Metge(String nom){
@@ -74,15 +49,108 @@ public class Metge extends Persona {
         }
     }
 
+    //Getters
+    public String getDepartament(){
+        return this.departament;
+    }
+
+    public int getAnysTreballats(){
+        return this.anysTreballats;
+    }
+
+    public double getSou(){
+        return this.sou;
+    }
+
+    public Categoria getCategoria(){
+        return this.categoria;
+    }
+
+    public ArrayList<Pacient> getPacientsAssignats(){
+        return this.pacientsAssignats;
+    }
+
+    //Setters
+
+    public void setDepartament(String nouDepartament){
+        this.departament = nouDepartament;
+    }
+
+    public void setCategoria(Categoria novaCategoria){
+        if(!novaCategoria.equals(Categoria.INTERN) && this.categoria.equals(Categoria.INTERN)){
+            this.categoria = novaCategoria;
+        } else if (this.categoria.equals(Categoria.RESIDEN) && novaCategoria.equals(Categoria.ESPECIALISTA)){
+            this.categoria = novaCategoria;
+        } else {
+            System.out.println("ERROR: No es pot assignar la nova categoría al metge. La nova" +
+                    " categoria hauria de ser superior. No igual o inferior.");
+        }
+    }
+
+    //Metodes
+
+
+    @Override
+    public String toString() {
+        return "Metge{ nom=" + this.getNom() +
+                ", anysTreballats=" + anysTreballats +
+                ", sou=" + sou +
+                ", departament='" + departament + '\'' +
+                ", categoria=" + categoria +
+                ", pacientsAssignats=" + pacientsAssignats +
+                '}';
+    }
+
+    public boolean consulta(Pacient p){
+        int preuBase = 10;
+        double preuFinal = calcularPreuConsulta(p.getEdat(),p.getGravetat(),this.getCategoria(),preuBase);
+
+        if(preuBase <= p.getDiners()){
+            p.setDiners(preuBase);
+            afegirPacient(p);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public double calcularPreuConsulta(int edat, Gravetat gravetat, Categoria categoria, int preuBase){
+        if(this.categoria == Categoria.RESIDEN){
+            preuBase*=2;
+        } else if (this.categoria == Categoria.ESPECIALISTA){
+            preuBase+=10;
+        }
+
+        if(edat < 15 || gravetat == Gravetat.CRITICA){
+            preuBase = 0;
+        }
+
+        return preuBase;
+    }
+
+    public void afegirPacient(Pacient pacient){
+        this.pacientsAssignats.add(pacient);
+    }
+
+    public void mostrarPacients(){
+        for(int i = 0; i < this.pacientsAssignats.size(); i++){
+            System.out.println(this.pacientsAssignats.get(i).getNom()+" "+this.pacientsAssignats.get(i).getGravetat());
+        }
+    }
     public void infoMetge(){
-        System.out.println("Nom del Metge: "+this.nom+"\nDepartament: "+this.departament+"\nAnys Treballats: "+this.anysTreballats+"\nSout: "+this.sou);
+        System.out.println("Nom del Metge: "+super.getNom()+"\nDepartament:" +
+                " "+this.departament+"\nAnys Treballats: "+this.anysTreballats+"\nSout: "+this.sou);
     }
 
     public void augmentarAnysTreballats(){
         this.anysTreballats++;
-        this.sou += this.sou*0.02;
+        actualitzarSou(this.sou*0.02);
         if(this.sou % 6 == 0){
-            this.sou += this.sou*0.05;
+            actualitzarSou(this.sou*0.05);
         }
+    }
+
+    private void actualitzarSou(double augment){
+        this.sou = augment;
     }
 }

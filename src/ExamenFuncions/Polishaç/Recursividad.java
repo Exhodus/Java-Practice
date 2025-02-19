@@ -7,7 +7,6 @@ public class Recursividad {
         Scanner scan = new Scanner(System.in);
         String combo = scan.nextLine();
         int cont = 0;
-
     }
 
 }
