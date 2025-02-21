@@ -1,4 +1,4 @@
-package Hospital3;
+package Hospital4;
 
 import java.util.ArrayList;
 
@@ -97,7 +97,7 @@ public class Pacient extends Persona {
                 '}';
     }
 
-    public PacientHospitalitzat hospitalitzat(String tractament){
+    public PacientHospitalitzat hospitalitzat(Tractament tractament){
         if(!(this instanceof PacientHospitalitzat)){
             PacientHospitalitzat p = new PacientHospitalitzat(super.getNom(), this.diners, this.edat, this.gravetat);
             p.setTractamentActual(tractament);

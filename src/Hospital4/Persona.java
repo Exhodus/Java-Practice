@@ -1,4 +1,4 @@
-package Hospital3;
+package Hospital4;
 
 public class Persona {
     private String nom;

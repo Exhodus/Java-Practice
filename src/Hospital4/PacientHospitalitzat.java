@@ -1,12 +1,12 @@
-package Hospital3;
+package Hospital4;
 
-import Hospital4.Tractament;
 import java.util.ArrayList;
 
 public class PacientHospitalitzat extends Pacient {
     static int nombrePacientsHospitalitzats;
     private ArrayList<Tractament> tractamentsActuals = new ArrayList<>();
     private int diesHospitalitzat;
+    private diagnose diagnose;
 
     //Constructors
 
@@ -18,14 +18,14 @@ public class PacientHospitalitzat extends Pacient {
 
     public PacientHospitalitzat(String nom, int edat) {
         super(nom, edat);
-        this.tractamentsActuals.add(new Tractament("Observació"));
+        this.tractamentsActuals.add(new Tractament(nom));
         this.diesHospitalitzat = 0;
         nombrePacientsHospitalitzats++;
     }
 
-    public PacientHospitalitzat(Pacient p, String tractament){
+    public PacientHospitalitzat(Pacient p, Tractament tractament){
         super(p.getNom(), p.getDiners(),p.getEdat(),p.getGravetat());
-        this.tractamentsActuals.add(new Tractament(tractament));
+        this.tractamentsActuals.add(tractament);
         nombrePacientsHospitalitzats++;
     }
 
@@ -38,9 +38,13 @@ public class PacientHospitalitzat extends Pacient {
         return this.tractamentsActuals.toString();
     }
 
+    public diagnose getDiagnose(){
+        return this.diagnose;
+    }
+
     //Setters
-    public void setTractamentActual(String tractamentActual) {
-        this.tractamentsActuals.add(new Tractament(tractamentActual));
+    public void setTractamentActual(Tractament tractament) {
+        this.tractamentsActuals.add(tractament);
     }
 
     public void setDiesHospitalitzat(int diesHospitalitzat) {
@@ -57,7 +61,7 @@ public class PacientHospitalitzat extends Pacient {
     @Override
     public String toString() {
         return "PacientHospitalitzat{ nom=" + super.getNom() +
-                ", tractaments Actuals ='" + this.tractamentsActuals.toString() + '\'' +
+                ", tractamentActual='" + this.getTractamentActual() + '\'' +
                 ", diesHospitalitzat=" + this.diesHospitalitzat  +
                 '}';
     }
