@@ -18,7 +18,6 @@ public class PacientHospitalitzat extends Pacient {
 
     public PacientHospitalitzat(String nom, int edat) {
         super(nom, edat);
-        this.tractamentsActuals.add(new Tractament(nom));
         this.diesHospitalitzat = 0;
         nombrePacientsHospitalitzats++;
     }
