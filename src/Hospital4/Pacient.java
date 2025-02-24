@@ -21,7 +21,7 @@ public class Pacient extends Persona {
         } else {
             this.edat = edat;
         }
-        this.calcularPlanta();
+        this.planta = this.calcularPlanta();
         this.gravetat = gravetat;
     }
 
@@ -37,7 +37,7 @@ public class Pacient extends Persona {
         this.diners = 0;
         this.gravetat = Gravetat.LLEU;
         this.edat = edat;
-        this.calcularPlanta();
+        this.planta = this.calcularPlanta();
     }
 
     //Getters
@@ -129,9 +129,9 @@ public class Pacient extends Persona {
     private Planta calcularPlanta(){
         if(this.edat < 2){
             return Planta.NEONATAL;
-        } else if (this.edat >= 2 && edat <= 18){
+        } else if (this.edat >= 2 && this.edat <= 18){
             return Planta.PEDIATRIA;
-        } else if( this.edat >= 19 && edat <= 74){
+        } else if( this.edat >= 19 && this.edat <= 64){
             return Planta.GENERAL;
         } else {
             return Planta.GERIATRIA;
