@@ -1,4 +1,6 @@
-package Hospital4;
+package Hospital4.Hospital4;
+
+import Hospital4.Hospital4.Tractament;
 
 import java.util.ArrayList;
 
@@ -6,7 +8,7 @@ public class PacientHospitalitzat extends Pacient {
     static int nombrePacientsHospitalitzats;
     private ArrayList<Tractament> tractamentsActuals = new ArrayList<>();
     private int diesHospitalitzat;
-    private diagnose diagnose;
+    private Diagnosi diagnosi;
 
     //Constructors
 
@@ -22,9 +24,15 @@ public class PacientHospitalitzat extends Pacient {
         nombrePacientsHospitalitzats++;
     }
 
-    public PacientHospitalitzat(Pacient p, Tractament tractament){
+    public PacientHospitalitzat(Pacient p, Medicament med){
         super(p.getNom(), p.getDiners(),p.getEdat(),p.getGravetat());
-        this.tractamentsActuals.add(tractament);
+        this.tractamentsActuals.add(med);
+        nombrePacientsHospitalitzats++;
+    }
+
+    public PacientHospitalitzat(Pacient p, Terapia ter){
+        super(p.getNom(), p.getDiners(),p.getEdat(),p.getGravetat());
+        this.tractamentsActuals.add(ter);
         nombrePacientsHospitalitzats++;
     }
 
@@ -37,13 +45,16 @@ public class PacientHospitalitzat extends Pacient {
         return this.tractamentsActuals.toString();
     }
 
-    public diagnose getDiagnose(){
-        return this.diagnose;
+    public Diagnosi getDiagnosi() {
+        return diagnosi;
     }
 
     //Setters
-    public void setTractamentActual(Tractament tractament) {
-        this.tractamentsActuals.add(tractament);
+    public void setTractamentActual(Medicament med) {
+        this.tractamentsActuals.add(med);
+    }
+    public void setTractamentActual(Terapia ter) {
+        this.tractamentsActuals.add(ter);
     }
 
     public void setDiesHospitalitzat(int diesHospitalitzat) {
@@ -54,13 +65,15 @@ public class PacientHospitalitzat extends Pacient {
         }
     }
 
+
+
     //Métodes
 
 
     @Override
     public String toString() {
         return "PacientHospitalitzat{ nom=" + super.getNom() +
-                ", tractamentActual='" + this.getTractamentActual() + '\'' +
+                ", tractaments Actuals ='" + this.tractamentsActuals.toString() + '\'' +
                 ", diesHospitalitzat=" + this.diesHospitalitzat  +
                 '}';
     }
@@ -70,11 +83,16 @@ public class PacientHospitalitzat extends Pacient {
         diesHospitalitzat++;
     }
 
-    public void infoHospitlitzat(){
-        System.out.println("Nom: "+super.getNom());
-        System.out.println("Edat: "+super.getEdat());
-        System.out.println("Tractament: "+this.getTractamentActual());
-        System.out.println("Dies Hospitalitzat: "+this.getDiesHospitalitzat());
+    public void reduirGravetat(){
+        if(!this.getGravetat().equals(Gravetat.LLEU)){
+            this.setGravetat(Gravetat.values()[this.getGravetat().ordinal()-1]);
+        }
+    }
+
+    public void augmentarGravetat(){
+        if(!this.getGravetat().equals(Gravetat.CRITICA)){
+            this.setGravetat(Gravetat.values()[this.getGravetat().ordinal()+1]);
+        }
     }
 
 }

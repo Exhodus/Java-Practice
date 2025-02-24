@@ -1,5 +1,0 @@
-package Hospital4;
-
-public enum tipusMedicament {
-    ANTIBIOTIC, ANALGESIC, ANSIOLITIC, ANTITUSIU, ANTIHISTAMINIC, ANTIDIABETIC;
-}

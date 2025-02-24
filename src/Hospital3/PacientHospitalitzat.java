@@ -1,6 +1,6 @@
 package Hospital3;
 
-import Hospital4.Tractament;
+import Hospital4.Hospital4.Tractament;
 import java.util.ArrayList;
 
 public class PacientHospitalitzat extends Pacient {

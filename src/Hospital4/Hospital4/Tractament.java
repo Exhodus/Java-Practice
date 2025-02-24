@@ -1,16 +1,15 @@
-package Hospital4;
+package Hospital4.Hospital4;
 
 public abstract class Tractament {
     private String nom;
     private int quantitat;
 
     //Constructors
-
-
     public Tractament(String nom){
         this.nom = nom;
-        this.quantitat = 1;
+        quantitat = 1;
     }
+
     //Getters
     public String getNom(){
         return this.nom;
@@ -20,12 +19,11 @@ public abstract class Tractament {
         return this.quantitat;
     }
 
-    //Setters
     //Metodes
 
     public void obtenir(int numTractaments){
         this.quantitat += numTractaments;
     }
 
-    public  abstract void administrar(PacientHospitalitzat pH);
+    public abstract void Administrar(PacientHospitalitzat ph){}
 }

@@ -1,5 +1,6 @@
-package Hospital4;
+package Hospital4.Hospital4;
 
-public enum diagnose {
+public enum Diagnosi {
     IBACTERIANA, IVIRICA, TOS, RESTRENYIMENT, ANSIETAT, DIABETIS,  ESGUINC, ALERGIA;
+
 }

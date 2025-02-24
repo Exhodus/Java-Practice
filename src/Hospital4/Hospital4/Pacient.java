@@ -1,4 +1,4 @@
-package Hospital4;
+package Hospital4.Hospital4;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class Pacient extends Persona {
         } else {
             this.edat = edat;
         }
-        this.planta = this.calcularPlanta();
+        this.calcularPlanta();
         this.gravetat = gravetat;
     }
 
@@ -37,7 +37,7 @@ public class Pacient extends Persona {
         this.diners = 0;
         this.gravetat = Gravetat.LLEU;
         this.edat = edat;
-        this.planta = this.calcularPlanta();
+        this.calcularPlanta();
     }
 
     //Getters
@@ -97,7 +97,7 @@ public class Pacient extends Persona {
                 '}';
     }
 
-    public PacientHospitalitzat hospitalitzat(Tractament tractament){
+    public PacientHospitalitzat hospitalitzat(String tractament){
         if(!(this instanceof PacientHospitalitzat)){
             PacientHospitalitzat p = new PacientHospitalitzat(super.getNom(), this.diners, this.edat, this.gravetat);
             p.setTractamentActual(tractament);
@@ -129,9 +129,9 @@ public class Pacient extends Persona {
     private Planta calcularPlanta(){
         if(this.edat < 2){
             return Planta.NEONATAL;
-        } else if (this.edat >= 2 && this.edat <= 18){
+        } else if (this.edat >= 2 && edat <= 18){
             return Planta.PEDIATRIA;
-        } else if( this.edat >= 19 && this.edat <= 64){
+        } else if( this.edat >= 19 && edat <= 74){
             return Planta.GENERAL;
         } else {
             return Planta.GERIATRIA;

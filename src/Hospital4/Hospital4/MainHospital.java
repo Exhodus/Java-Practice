@@ -1,4 +1,4 @@
-package Hospital4;
+package Hospital4.Hospital4;
 
 public class MainHospital {
 
@@ -61,10 +61,10 @@ public class MainHospital {
         Metge david = new Metge();
         david.infoMetge();
 
-        PacientHospitalitzat quimHospital = quim.hospitalitzat(new Tractament("cures"));
+        PacientHospitalitzat quimHospital = quim.hospitalitzat("cures");
         quimHospital.infoHospitlitzat();
 
-        PacientHospitalitzat andreaHospital = new PacientHospitalitzat(andrea, new Tractament("rehabilitació"));
+        PacientHospitalitzat andreaHospital = hospitalitzat(andrea, "rehabilitació");
         andreaHospital.infoHospitlitzat();
 
         System.out.println("-------------------------------------------");
@@ -87,14 +87,14 @@ public class MainHospital {
         System.out.println(quimHospital.toString());
     }
 
-//   static public PacientHospitalitzat hospitalitzat(Pacient p, String tractament){
-//        if(!(p instanceof PacientHospitalitzat)){
-//            PacientHospitalitzat pH = new PacientHospitalitzat(p.getNom(), p.getDiners(), p.getEdat(), p.getGravetat());
-//            pH.setTractamentActual(tractament);
-//            return pH;
-//        } else {
-//            System.out.println("Aquest pacient ja està hospitalitzat");
-//            return (PacientHospitalitzat) p;
-//        }
-//    }
+   static public PacientHospitalitzat hospitalitzat(Pacient p, String tractament){
+        if(!(p instanceof PacientHospitalitzat)){
+            PacientHospitalitzat pH = new PacientHospitalitzat(p.getNom(), p.getDiners(), p.getEdat(), p.getGravetat());
+            pH.setTractamentActual(tractament);
+            return pH;
+        } else {
+            System.out.println("Aquest pacient ja està hospitalitzat");
+            return (PacientHospitalitzat) p;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package Hospital4;
+package Hospital4.Hospital4;
 
 import java.util.ArrayList;
 
