@@ -14,6 +14,9 @@ public class Bingo {
     static boolean fila = false;
     static ArrayList<Integer> jaHaSortit = new ArrayList<>();
 
+
+    //Hola
+
     public static void main(String[] args) throws InterruptedException {
 
         //Declaració de variables importants
