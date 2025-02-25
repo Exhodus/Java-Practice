@@ -1,6 +1,4 @@
-package Hospital4.Hospital4;
-
-import Hospital4.Hospital4.Tractament;
+package Hospital6;
 
 import java.util.ArrayList;
 

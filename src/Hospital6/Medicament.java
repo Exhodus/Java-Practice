@@ -1,4 +1,4 @@
-package Hospital4.Hospital4;
+package Hospital6;
 
 import java.util.Random;
 

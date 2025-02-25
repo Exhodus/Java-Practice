@@ -1,6 +1,4 @@
-package Hospital4.Hospital4;
-
-import Hospital4.Hospital4.Tractament;
+package Hospital5;
 
 import java.util.ArrayList;
 
@@ -73,6 +71,10 @@ public class PacientHospitalitzat extends Pacient {
 
 
     //Métodes
+
+    public void realitzarIntervencio(){
+
+    }
 
     public void removeIntervention(Intervencio inter){
         if(this.intervencioAssignada.equals(inter)){

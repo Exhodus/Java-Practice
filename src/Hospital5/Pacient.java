@@ -1,6 +1,9 @@
-package Hospital4.Hospital4;
+package Hospital5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Pacient extends Persona {
     static String estatic;
@@ -9,6 +12,8 @@ public class Pacient extends Persona {
     private ArrayList<Simptoma> simptoma = new ArrayList<>();
     private Gravetat gravetat;
     private Planta planta;
+    private Sexe sexe;
+    private Map<Organs, Boolean> organsSans;
 
     //Constructors
     public Pacient(String nom, double diners, int edat, Gravetat gravetat){
@@ -23,6 +28,9 @@ public class Pacient extends Persona {
         }
         this.calcularPlanta();
         this.gravetat = gravetat;
+
+       // this.organsSans = randomOrgans();
+
     }
 
     public Pacient(){
@@ -107,6 +115,19 @@ public class Pacient extends Persona {
             return (PacientHospitalitzat) this;
         }
     }
+
+//    private void randomOrgans(){
+//        Map<Organs, Boolean> devuelta = new HashMap<>();
+//        if(this.planta.equals(Planta.NEONATAL)){
+//            for(int i = 0; i < 4; i++){
+//                Random rand = new Random();
+//                int esSa = rand.nextInt(0,2);
+//                if(esSa == 1){
+//                    devuelta.put(Organs.values())
+//                }
+//            }
+//        }
+//    }
 
     public void afegirSimptoma(Simptoma s){
         this.simptoma.add(s);

@@ -1,10 +1,9 @@
-package Hospital3;
+package Hospital6;
 
 public class MainHospital {
 
     public static void main(String[] args) {
         Metge marc = new Metge();
-        marc.setNom("Marc");
         marc.diguesNom();
         System.out.println(marc.getAnysTreballats()+" "+marc.getSou());
         marc.augmentarAnysTreballats();
@@ -62,11 +61,10 @@ public class MainHospital {
         Metge david = new Metge();
         david.infoMetge();
 
-        PacientHospitalitzat quimHospital = quim.hospitalitzat("cures");
-        quimHospital.infoHospitlitzat();
+        Medicament med = new Medicament("Paracetamol", tipusMedicament.ANALGÈSIC);
+        PacientHospitalitzat quimHospital = quim.hospitalitzat(med);
 
-        PacientHospitalitzat andreaHospital = hospitalitzat(andrea, "rehabilitació");
-        andreaHospital.infoHospitlitzat();
+        PacientHospitalitzat andreaHospital = andrea.hospitalitzat(med);
 
         System.out.println("-------------------------------------------");
         System.out.println("-------------------------------------------");
@@ -86,16 +84,42 @@ public class MainHospital {
         System.out.println(marc.toString());
         System.out.println(xavi.toString());
         System.out.println(quimHospital.toString());
+
+
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+
+        System.out.println("Coherencies: ");
+        System.out.println(quimHospital.toString());
+        quimHospital.setDiagnosi(Diagnosi.ESGUINC);
+        Medicament medicament = new Medicament("Droga", tipusMedicament.ANALGÈSIC);
+        quimHospital.setTractamentActual(medicament);
+        System.out.println(quimHospital.toString());
+
+
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+
+        System.out.println("Li cambiem la gravetat al Quim de lleu a Greu");
+        quimHospital.setGravetat(Gravetat.GREU);
+        System.out.println("Ara l'hi fiquem la cirugia");
+        Cirugia cig = new Cirugia("Cosa");
+        cig.assignar(quimHospital);
+        cig.realitzar(quimHospital);
+        System.out.println(quimHospital.getGravetat());
+
     }
 
-   static public PacientHospitalitzat hospitalitzat(Pacient p, String tractament){
-        if(!(p instanceof PacientHospitalitzat)){
-            PacientHospitalitzat pH = new PacientHospitalitzat(p.getNom(), p.getDiners(), p.getEdat(), p.getGravetat());
-            pH.setTractamentActual(tractament);
-            return pH;
-        } else {
-            System.out.println("Aquest pacient ja està hospitalitzat");
-            return (PacientHospitalitzat) p;
-        }
-    }
+//   static public PacientHospitalitzat hospitalitzat(Pacient p, String tractament){
+//        if(!(p instanceof PacientHospitalitzat)){
+//            PacientHospitalitzat pH = new PacientHospitalitzat(p.getNom(), p.getDiners(), p.getEdat(), p.getGravetat());
+//            pH.setTractamentActual(tractament);
+//            return pH;
+//        } else {
+//            System.out.println("Aquest pacient ja està hospitalitzat");
+//            return (PacientHospitalitzat) p;
+//        }
+//    }
 }

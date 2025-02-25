@@ -1,4 +1,4 @@
-package Hospital4.Hospital4;
+package Hospital5;
 
 public class MainHospital {
 
@@ -61,7 +61,7 @@ public class MainHospital {
         Metge david = new Metge();
         david.infoMetge();
 
-        Medicament med = new Medicament("Paracetamol",tipusMedicament.ANALGÈSIC);
+        Medicament med = new Medicament("Paracetamol", tipusMedicament.ANALGÈSIC);
         PacientHospitalitzat quimHospital = quim.hospitalitzat(med);
 
         PacientHospitalitzat andreaHospital = andrea.hospitalitzat(med);

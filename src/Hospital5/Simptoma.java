@@ -1,4 +1,4 @@
-package Hospital3;
+package Hospital5;
 
 public class Simptoma {
     String nomSimptoma;

@@ -1,4 +1,4 @@
-package Hospital4.Hospital4;
+package Hospital5;
 
 public abstract class Tractament {
     private String nom;
