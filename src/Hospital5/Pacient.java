@@ -100,6 +100,10 @@ public class Pacient extends Persona implements Comparable{
         this.gravetat = g;
     }
 
+    public void setSexe(Sexe sexe){
+        this.sexe = sexe;
+    }
+
     //Métodes
 
     public Map<Organs, Boolean> calcularOrgans(){

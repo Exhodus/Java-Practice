@@ -37,10 +37,8 @@ public class MainHospital {
         System.out.println("-------------------------------------------");
         System.out.println("-------------------------------------------");
 
-        Pacient andrea = new Pacient("Andrea", 2000, 28, Gravetat.LLEU);
         Pacient quim = new Pacient("Quim", 80);
 
-        xavi.afegirPacient(andrea);
         xavi.afegirPacient(quim);
         xavi.setCategoria(Categoria.ESPECIALISTA);
 
@@ -64,7 +62,6 @@ public class MainHospital {
         Medicament med = new Medicament("Paracetamol", tipusMedicament.ANALGÈSIC);
         PacientHospitalitzat quimHospital = quim.hospitalitzat(med);
 
-        PacientHospitalitzat andreaHospital = andrea.hospitalitzat(med);
 
         System.out.println("-------------------------------------------");
         System.out.println("-------------------------------------------");
@@ -109,6 +106,30 @@ public class MainHospital {
         cig.assignar(quimHospital);
         cig.realitzar(quimHospital);
         System.out.println(quimHospital.getGravetat());
+
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+        System.out.println("-------------------------------------------");
+
+        PacientHospitalitzat claudiaH = new PacientHospitalitzat("Claudia", 2000.20, 34, Gravetat.MODERARA);
+
+
+        // el try-catch té dues parts
+        try {
+            // intentem fer el codi en el try
+            Trasplantament traspMedula = claudiaH.solicitarTrasplantament(quimHospital, Organs.MEDULA);
+            // printem l'objecteper veure si es crea
+            System.out.println("Hem trobat donant! Codi de trasplantament " + traspMedula);
+            // si salta una excepció al fer el codi que hi ha dintre del try, anirà a
+            // executar aquest codi, en comptes d'acabar el programa
+        } catch (Exception e) {
+            // Escrivim el missatge de l’excepció. El missatge és la String que hem posat en
+            // el constructor de l’excepció
+            e.printStackTrace();
+            //el finally s'executa sempre, tant si ha saltat l'excepció com si no
+        } finally {
+            System.out.println(claudia.getNom() + " segueix hospitalitzada");
+        }
 
     }
 

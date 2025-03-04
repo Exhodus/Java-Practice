@@ -1,14 +1,16 @@
 package Hospital6;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class Pacient extends Persona {
+public class Pacient extends Persona implements Comparable{
     static String estatic;
     private double diners;
     private int edat;
     private ArrayList<Simptoma> simptoma = new ArrayList<>();
     private Gravetat gravetat;
     private Planta planta;
+    private Map<Organs, Boolean> mapaOrgans;
+    private Sexe sexe;
 
     //Constructors
     public Pacient(String nom, double diners, int edat, Gravetat gravetat){
@@ -21,8 +23,10 @@ public class Pacient extends Persona {
         } else {
             this.edat = edat;
         }
-        this.calcularPlanta();
+        this.sexe = Sexe.MASCULI;
+        this.planta = calcularPlanta();
         this.gravetat = gravetat;
+        mapaOrgans = calcularOrgans();
     }
 
     public Pacient(){
@@ -30,6 +34,8 @@ public class Pacient extends Persona {
         this.diners = 0;
         this.edat = 0;
         this.gravetat = Gravetat.LLEU;
+        this.planta = calcularPlanta();
+        this.mapaOrgans = calcularOrgans();
     }
 
     public Pacient(String nom, int edat){
@@ -37,8 +43,11 @@ public class Pacient extends Persona {
         this.diners = 0;
         this.gravetat = Gravetat.LLEU;
         this.edat = edat;
-        this.calcularPlanta();
+        this.planta = calcularPlanta();
+        this.mapaOrgans = calcularOrgans();
     }
+
+
 
     //Getters
      public double getDiners(){
@@ -59,6 +68,14 @@ public class Pacient extends Persona {
 
      public ArrayList<Simptoma> getSimptoma(){
         return this.simptoma;
+     }
+
+     public Map<Organs, Boolean> getMapaOrgans(){
+        return mapaOrgans;
+     }
+
+     public Sexe getSexe(){
+        return this.sexe;
      }
 
     //Setters
@@ -83,8 +100,56 @@ public class Pacient extends Persona {
         this.gravetat = g;
     }
 
+    public void setSexe(Sexe sexe){
+        this.sexe = sexe;
+    }
+
     //Métodes
 
+    public Map<Organs, Boolean> calcularOrgans(){
+        Map<Organs, Boolean> devuelta = new HashMap<>();
+        Random rand = new Random();
+
+        for(int i = 0; i < 4; i++){
+            int randomness = rand.nextInt(1,101);
+            if(this.planta.equals(Planta.NEONATAL)){
+                if(randomness > 5){
+                    devuelta.put(Organs.values()[i], true);
+                } else {
+                    devuelta.put(Organs.values()[i], false);
+                }
+            } else if (this.planta.equals(Planta.PEDIATRIA)){
+                if(randomness > 15){
+                    devuelta.put(Organs.values()[i], true);
+                } else {
+                    devuelta.put(Organs.values()[i], false);
+                }
+            } else if (this.planta.equals(Planta.GENERAL)){
+                if(randomness > 35){
+                    devuelta.put(Organs.values()[i], true);
+                } else {
+                    devuelta.put(Organs.values()[i], false);
+                }
+            } else {
+                if(randomness > 60){
+                    devuelta.put(Organs.values()[i], true);
+                } else {
+                    devuelta.put(Organs.values()[i], false);
+                }
+            }
+        }
+        return devuelta;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Pacient pacient = (Pacient) o;
+        return Double.compare(diners, pacient.diners) == 0 && edat == pacient.edat
+                && Objects.equals(simptoma, pacient.simptoma) && gravetat == pacient.gravetat
+                && planta == pacient.planta && Objects.equals(mapaOrgans, pacient.mapaOrgans)
+                && sexe == pacient.sexe;
+    }
 
     @Override
     public String toString() {
@@ -97,14 +162,13 @@ public class Pacient extends Persona {
                 '}';
     }
 
-    public PacientHospitalitzat hospitalitzat(Tractament trac){
+    public PacientHospitalitzat hospitalitzat(Tractament trac) throws Exception{
         if(!(this instanceof PacientHospitalitzat)){
             PacientHospitalitzat p = new PacientHospitalitzat(super.getNom(), this.diners, this.edat, this.gravetat);
             p.setTractamentActual(trac);
             return p;
         } else {
-            System.out.println("Aquest pacient ja està hospitalitzat");
-            return (PacientHospitalitzat) this;
+            throw new PacientJaHospitalitzatException("Error, Aquest Pacient ja està Hospitalitzat.");
         }
     }
 
@@ -138,4 +202,17 @@ public class Pacient extends Persona {
         }
     }
 
+    @Override
+    public int compareTo(Object arg0) {
+        Pacient altre = (Pacient) arg0;
+        // comparo per edat. si l'altre té més edat, soc més petit
+        if (altre.edat > this.edat) {
+            return -1;
+        } else if (this.edat > altre.edat) {
+            return 1;
+        } // si tenen la mateixa edat comparem per nom
+        else {// com que nom és una string i string té el seu propi compareTo, el podem fer servir
+            return this.getNom().compareTo(altre.getNom());
+        }
+    }
 }
