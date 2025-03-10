@@ -1,8 +1,10 @@
 package Hospital6;
 
+import java.util.ArrayList;
+
 public class MainHospital {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Metge marc = new Metge();
         marc.diguesNom();
         System.out.println(marc.getAnysTreballats()+" "+marc.getSou());
@@ -131,8 +133,15 @@ public class MainHospital {
             System.out.println(claudia.getNom() + " segueix hospitalitzada");
         }
 
-    }
 
+
+
+    }
+    public static void nomDeTots(ArrayList<? extends Persona> list) {
+        for(Persona m : list) {
+            m.diguesNom();
+        }
+    }
 //   static public PacientHospitalitzat hospitalitzat(Pacient p, String tractament){
 //        if(!(p instanceof PacientHospitalitzat)){
 //            PacientHospitalitzat pH = new PacientHospitalitzat(p.getNom(), p.getDiners(), p.getEdat(), p.getGravetat());

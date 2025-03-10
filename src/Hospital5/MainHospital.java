@@ -2,7 +2,7 @@ package Hospital5;
 
 public class MainHospital {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Metge marc = new Metge();
         marc.diguesNom();
         System.out.println(marc.getAnysTreballats()+" "+marc.getSou());
