@@ -22,7 +22,7 @@ public class Palaca {
             int minPossibleDamage = qd + mod;
 
             if (qd != 0) {
-                if (ca > 0) {
+                if (ca > 1 && ca < 20) {
                     if (dmg > totalPossibleDamage) {
                         if (dmg % 2 == 0) {
                             if ((dmg / 2) <= totalPossibleDamage && (dmg / 2) >= minPossibleDamage) {
@@ -57,7 +57,7 @@ public class Palaca {
                         System.out.println("NO");
                     }
 
-                }else if (ca == 0){
+                }else if (ca <= 1){
                     if (dmg > totalPossibleDamage) {
                         if (dmg % 2 == 0) {
                             if ((dmg / 2) <= totalPossibleDamage && (dmg / 2) >= minPossibleDamage) {
