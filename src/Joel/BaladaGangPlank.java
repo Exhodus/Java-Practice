@@ -7,27 +7,17 @@ public class BaladaGangPlank {
         Scanner scan = new Scanner(System.in);
 
         int monedos, empieza;
-
-
             monedos = scan.nextInt();
             empieza = scan.nextInt();
 
-            if(monedos > 3) {
-                if (monedos % 2 == 0) {
-                    if (empieza == 0) {
-                        System.out.println("GANGPLANK");
-                    } else {
-                        System.out.println("JO");
-                    }
-                } else if (monedos % 2 == 1) {
-                    if (empieza == 1) {
-                        System.out.println("GANGPLANK");
-                    } else {
-                        System.out.println("JO");
-                    }
+            if(monedos % 4 == 0){
+                if(empieza == 0){
+                    System.out.println("GANGPLANK");
+                } else {
+                    System.out.println("JO");
                 }
             } else {
-                if (empieza == 1) {
+                if(empieza == 1){
                     System.out.println("GANGPLANK");
                 } else {
                     System.out.println("JO");
