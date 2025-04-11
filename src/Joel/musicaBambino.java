@@ -11,7 +11,7 @@ public class musicaBambino {
         int casos = scan.nextInt();
         scan.nextLine();
         String entrada = "";
-        String[] octavas = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
+        String[] octavas = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
         for(int i = 0; i < casos; i++){
             entrada = scan.nextLine();
             String[] sep = entrada.split(" ");
@@ -26,8 +26,28 @@ public class musicaBambino {
                 }
             }
 
+            boolean flagPrimera = false;
+            int suma = 0;
+            int posicio = 0;
+            for(int j = 0; j < notas.size(); j++) {
+                for (int k = 0; k < octavas.length; k++) {
+                    if (flagPrimera && notas.get(j).equals(octavas[k])) {
+                        if(k < posicio){
+                            suma = ((octavas.length-1)-posicio) + k;
+                        } else {
+                            suma += (k - posicio);
+                        }
+                        posicio = k;
+                        k = octavas.length - 1;
+                    } else if (notas.get(j).equals(octavas[k])) {
+                        flagPrimera = true;
+                        posicio = k;
+                        k = octavas.length-1;
+                    }
+                }
+            }
 
-
+            System.out.println(suma);
             System.out.println(notas);
         }
     }
