@@ -1,8 +1,6 @@
 package Joel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class musicaBambino {
     public static void main(String[] args) {
@@ -11,44 +9,64 @@ public class musicaBambino {
         int casos = scan.nextInt();
         scan.nextLine();
         String entrada = "";
-        String[] octavas = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+        String[] octavas = {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
+
         for(int i = 0; i < casos; i++){
             entrada = scan.nextLine();
             String[] sep = entrada.split(" ");
-            ArrayList<String> notas = new ArrayList<>(Arrays.asList(sep));
-
-            for(int j = 1; j < notas.size(); j++){
-                if(notas.get(j-1).charAt(0) > notas.get(j).charAt(0)){
-                    String aux = notas.get(j-1);
-                    notas.set(j-1, notas.get(j));
-                    notas.set(j, aux);
-                    j = 0;
-                }
-            }
-
-            boolean flagPrimera = false;
+            HashMap<String, Integer> notas = new HashMap<>();
+            int cont = 0;
             int suma = 0;
-            int posicio = 0;
-            for(int j = 0; j < notas.size(); j++) {
-                for (int k = 0; k < octavas.length; k++) {
-                    if (flagPrimera && notas.get(j).equals(octavas[k])) {
-                        if(k < posicio){
-                            suma = ((octavas.length-1)-posicio) + k;
+            for(int j = 0; j < octavas.length; j++){
+                boolean acabado = false;
+                if(octavas[j].equals(sep[0])){
+                    for(int k = j+1; k < octavas.length; k++){
+                        if(octavas[k].equals(sep[1])){
+                            cont++;
+                            suma += cont;
+                            cont = 0;
+                        } else if(octavas[k].equals(sep[2])){
+                            cont++;
+                            suma += cont;
+                            cont = 0;
+                        } else if (octavas[k].equals(sep[3])){
+                            cont++;
+                            suma += cont;
+                            acabado = true;
+                            k = 11;
                         } else {
-                            suma += (k - posicio);
+                            cont++;
                         }
-                        posicio = k;
-                        k = octavas.length - 1;
-                    } else if (notas.get(j).equals(octavas[k])) {
-                        flagPrimera = true;
-                        posicio = k;
-                        k = octavas.length-1;
+                        if(k == 11 && !acabado){
+                            k = 0;
+                        }
                     }
                 }
             }
 
             System.out.println(suma);
+            /*
+
+            for(int j = 0; j < sep.length; j++){
+                for(int k = 0; k < octavas.length; k++){
+                    if(sep[j].equals(octavas[k])){
+                        notas.put(sep[j], k);
+                    }
+                }
+            }
+
+            int suma = 0;
+            for (int j = 1; j < notas.size(); j++) {
+                if(notas.get(j) > notas.get(j-1)){
+                    suma += notas.get(j-1)+ notas.get(j);
+                } else {
+
+                }
+            }
+            System.out.println(suma);
             System.out.println(notas);
+
+             */
         }
     }
 }
