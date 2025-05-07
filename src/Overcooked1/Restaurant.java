@@ -26,13 +26,12 @@ public class Restaurant {
         return nom;
     }
 
-    public void afegirComanda(Plat p){
-
+    public void afegirComanda(Comandes comanda, Plat p){
+        comanda.add(p);
     }
 
-    public  Plat servirComanda(){
-        Plat p = new Plat("nom");
-        return p;
+    public  Plat servirComanda(Comandes comanda){
+        return comanda.pop();
     }
 
     public void afegirPlatBrut(Plat p){
