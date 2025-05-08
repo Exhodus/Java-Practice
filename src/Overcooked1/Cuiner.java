@@ -31,12 +31,10 @@ public class Cuiner {
 
     //Mètodes
 
-    public void cuinar(Plat plat){
-        if(this.sexe == 0){
-            System.out.println("El cuiner "+nom+" està cuinant "+plat);
-        } else{
-            System.out.println("La cuinera "+nom+" està cuinant "+plat);
-        }
+    public void cuinar(){
+        Plat plat = Restaurant.getInstance(Restaurant.getNom()).servirComanda();
+        System.out.println("En/na "+ this.nom+" està cuinant "+plat.getNom());
+        Restaurant.getInstance(Restaurant.getNom()).afegirPlatBrut(plat);
     }
 
     @Override
