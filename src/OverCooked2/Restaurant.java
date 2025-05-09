@@ -1,4 +1,4 @@
-package Overcooked1;
+package OverCooked2;
 
 public class Restaurant {
     private static Restaurant instance = null;
@@ -31,7 +31,7 @@ public class Restaurant {
         comanda.add(p);
     }
 
-    public  Plat servirComanda(){
+    public Plat servirComanda(){
         return comanda.pop();
     }
 
