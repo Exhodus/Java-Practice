@@ -17,8 +17,6 @@ public class Plat {
 
     @Override
     public String toString() {
-        return "Plat{" +
-                "nom='" + nom + '\'' +
-                '}';
+        return this.nom ;
     }
 }

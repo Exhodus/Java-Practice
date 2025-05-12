@@ -31,11 +31,6 @@ public abstract class Cuiner {
 
     //Mètodes
 
-    public void cuinar(){
-        Plat plat = Restaurant.getInstance(Restaurant.getNom()).servirComanda();
-        System.out.println("En/na "+ this.nom+" està cuinant "+plat.getNom());
-        Restaurant.getInstance(Restaurant.getNom()).afegirPlatBrut(plat);
-    }
 
     @Override
     public String toString() {

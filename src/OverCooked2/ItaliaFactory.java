@@ -9,6 +9,6 @@ public class ItaliaFactory implements RestaurantFactory{
 
     @Override
     public Ingredient crearIngredient() {
-        return new Pizza();
+        return new Tomaquet();
     }
 }

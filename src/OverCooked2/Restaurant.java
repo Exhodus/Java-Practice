@@ -11,6 +11,9 @@ public class Restaurant {
         Restaurant.nom = nom;
     }
 
+    public Comandes getComanda(){
+        return comanda;
+    }
     //Método
     public static Restaurant getInstance(String nom){
          if(instance == null){

@@ -1,19 +1,33 @@
 package OverCooked2;
 
+import javax.naming.PartialResultException;
+
 public class Main {
     public static void main(String[] args) {
         Restaurant restaurant = Restaurant.getInstance("El bistreau de DAMvi");
         restaurant.obrirRestaurant();
 
+        PizzaFactory pizzaFactory = new PizzaFactory();
+        SushiFactory sushiFactory = new SushiFactory();
 
-        RestaurantFactory italiaFactory = new ItaliaFactory();
-        Cuiner cuinerItalia = italiaFactory.crearCuiner("Dani", 0);
-        Ingredient ingredientItalia = italiaFactory.crearIngredient();
+        ItaliaFactory italiaFactory = new ItaliaFactory();
+        JapoFactory japoFactory = new JapoFactory();
 
+        CuinerSushi xavi = (CuinerSushi) japoFactory.crearCuiner("Xavi", 0);
+        CuinerPizza andrea = (CuinerPizza) italiaFactory.crearCuiner("Andrea", 1);
 
-        Plat pizza = new Plat("Pizza");
-        // Afegim comandes
-        restaurant.afegirComanda(pizza);
-        cuinerItalia.cuinar(restaurant.getNom());
+        //Plats
+        restaurant.afegirComanda(pizzaFactory.crearPlat(japoFactory.crearIngredient()));
+        restaurant.afegirComanda(pizzaFactory.crearPlat(italiaFactory.crearIngredient()));
+
+        restaurant.afegirComanda(sushiFactory.crearPlat(italiaFactory.crearIngredient()));
+        restaurant.afegirComanda(sushiFactory.crearPlat(japoFactory.crearIngredient()));
+
+        while (!restaurant.getComanda().isEmpty()) {
+            andrea.cuinar(restaurant.getNom());
+            xavi.cuinar(restaurant.getNom());
+        }
+
+        restaurant.iniciarRentatAutomatic();
     }
 }
