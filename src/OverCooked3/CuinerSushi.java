@@ -22,7 +22,7 @@ public class CuinerSushi extends Cuiner {
         } else {
             System.out.println("El plat "+ plat.getNom()+" no pot ser cuinat per "+ this.getNom());
             System.out.println("Tornant la comanda a la cua.");
-            Restaurant.getInstance(Restaurant.getNom()).afegirComanda(plat);
+            Restaurant.getInstance(Restaurant.getNom()).afegirComanda(pb);
         }
     }
 }

@@ -1,4 +1,4 @@
-package Joel.PreparacióExamen;
+package Joel.PreparaciÃ³Examen;
 
 import java.util.Scanner;
 

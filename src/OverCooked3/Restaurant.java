@@ -39,7 +39,7 @@ public class Restaurant {
         return nom;
     }
 
-    public void afegirComanda(Plat p){
+    public void afegirComanda(PlatBasic p){
         comanda.add(p);
     }
 

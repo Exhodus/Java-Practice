@@ -2,7 +2,7 @@ package ExamenLlistas;
 
 import java.util.Scanner;
 
-public class Exercici_3_Encriptació_STrign {
+public class Exercici_3_Encriptacio_STrign {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 

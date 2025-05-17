@@ -22,8 +22,6 @@ public abstract class PlatDecorator implements Plat{
 
     @Override
     public String  toString() {
-        return "PlatDecorator{" +
-                "platDecorat=" + platDecorat +
-                '}';
+        return "platDecorat = " + platDecorat ;
     }
 }

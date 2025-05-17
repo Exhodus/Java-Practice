@@ -22,8 +22,8 @@ public class ParadaBoxes {
 
             for(int j = 0; j < pilots.size(); j++){
 
-                int posició = scan.nextInt();
-                Collections.swap(pilots, j, posició);
+                int posicio = scan.nextInt();
+                Collections.swap(pilots, j, posicio);
             }
 
             System.out.println(pilots);
