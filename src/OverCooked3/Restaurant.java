@@ -20,8 +20,8 @@ public class Restaurant {
         return ambient;
     }
 
-    public void setAmbinet(AmbientBase ambient){
-        this.ambient = ambient;
+    public void setAmbient(DecoradorAmbient ambientFora){
+        ambient = ambientFora;
     }
     //Método
     public static Restaurant getInstance(String nom){

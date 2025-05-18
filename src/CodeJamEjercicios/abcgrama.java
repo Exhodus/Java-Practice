@@ -14,15 +14,15 @@ public class abcgrama {
             palabras.add(scan.nextLine());
         }
 
-        for(int i = 0; i < palabras.size()-1; i++){
-            if(palabras.get(i).charAt(0) != 'ñ' && palabras.get(i+1).charAt(0) != 'ñ') {
-                if (palabras.get(i).charAt(0)+1 > palabras.get(i + 1).charAt(0) || palabras.get(i).charAt(0)+1 < palabras.get(i + 1).charAt(0)) {
-                    mal = true;
-                } else if (palabras.get(i).charAt(0) == 'z' && palabras.get(i+1).charAt(0) == 'a'){
-                    mal = false;
-                }
-            }
-        }
+//        for(int i = 0; i < palabras.size()-1; i++){
+//            if(palabras.get(i).charAt(0) != 'ñ' && palabras.get(i+1).charAt(0) != 'ñ') {
+//                if (palabras.get(i).charAt(0)+1 > palabras.get(i + 1).charAt(0) || palabras.get(i).charAt(0)+1 < palabras.get(i + 1).charAt(0)) {
+//                    mal = true;
+//                } else if (palabras.get(i).charAt(0) == 'z' && palabras.get(i+1).charAt(0) == 'a'){
+//                    mal = false;
+//                }
+//            }
+//        }
 
         if(mal || entradas == 0){
             System.out.println("NO");

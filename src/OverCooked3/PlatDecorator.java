@@ -4,7 +4,12 @@ public abstract class PlatDecorator implements Plat{
     protected Plat platDecorat;
 
     public PlatDecorator(Plat plat) {
-        this.platDecorat = plat;
+        if(!plat.getNom().contains("Sashimi") && !plat.getNom().contains("formatge")){
+            this.platDecorat = plat;
+        } else {
+            System.out.println("No es pot ficar Formatge al Sashimi! Terrorista.");
+        }
+
     }
     @Override
     public String getNom() {

@@ -2,30 +2,60 @@ package OverCooked3;
 
 public class Main {
     public static void main(String[] args) {
-        Restaurant restaurant = Restaurant.getInstance("El bistreau de DAMvi");
+
+        String nomRestaurant = "El bistreau de DAMvi";
+
+        DecoradorAmbient ambientFora = new SobreLava(new AmbTempesta(new AmbientBase()));
+        Restaurant restaurant = Restaurant.getInstance(nomRestaurant);
+        restaurant.setAmbient(ambientFora);
         restaurant.obrirRestaurant();
 
-        PizzaFactory pizzaFactory = new PizzaFactory();
-        SushiFactory sushiFactory = new SushiFactory();
+        RestaurantFactory italiaFactory = new ItaliaFactory();
+        RestaurantFactory japoFactory = new JapoFactory();
 
-        ItaliaFactory italiaFactory = new ItaliaFactory();
-        JapoFactory japoFactory = new JapoFactory();
+        Cuiner cuinerItalia = italiaFactory.crearCuiner("Mario", 0);
+        Cuiner cuinerJapo = japoFactory.crearCuiner("Sakura", 1);
 
-        CuinerSushi xavi = (CuinerSushi) japoFactory.crearCuiner("Xavi", 0);
-        CuinerPizza andrea = (CuinerPizza) italiaFactory.crearCuiner("Andrea", 1);
+        Ingredient tomaquet = italiaFactory.crearIngredient();
+        Ingredient arros = japoFactory.crearIngredient();
 
-        //Plats
-        restaurant.afegirComanda(pizzaFactory.crearPlat(japoFactory.crearIngredient()));
-        restaurant.afegirComanda(pizzaFactory.crearPlat(italiaFactory.crearIngredient()));
+        PlatFactory pizzaFactory = new PizzaFactory();
+        PlatFactory sushiFactory = new SushiFactory();
 
-        restaurant.afegirComanda(sushiFactory.crearPlat(italiaFactory.crearIngredient()));
-        restaurant.afegirComanda(sushiFactory.crearPlat(japoFactory.crearIngredient()));
+        Plat pizza = pizzaFactory.crearPlat(tomaquet);
+        Plat sushi = sushiFactory.crearPlat(arros);
 
-        while (!restaurant.getComanda().isEmpty()) {
-            andrea.cuinar(restaurant.getNom());
-            xavi.cuinar(restaurant.getNom());
-        }
+        PlatBasic pizzaBasica = new PlatBasic(pizza.getNom());
+        PlatBasic sushiBasic = new PlatBasic(sushi.getNom());
 
+
+        restaurant.afegirComanda(pizzaBasica);
+        restaurant.afegirComanda(sushiBasic);
+
+
+        Client clientImpacient = new Client("Pau",10, "Italiana", "formatge");
+        Client clientNormal = new Client("Laia", "Japonesa");
+
+
+        clientImpacient.ferComanda(nomRestaurant);
+        clientNormal.ferComanda(nomRestaurant);
+
+        // Els cuiners cuinen
+        cuinerItalia.cuinar(restaurant.getNom());
+        cuinerJapo.cuinar(restaurant.getNom());
+
+        // Els clients consumeixen el plat
+        Plat platClient1 = new FormatgeExtra(pizza);
+        PlatBasic platCielnt1Basic = new PlatBasic(platClient1.getNom());
+        clientImpacient.consumirPlat(platCielnt1Basic);
+
+        Plat platClient2 = sushi;
+        PlatBasic platClient2Basic = new PlatBasic(platClient2.getNom());
+        clientNormal.consumirPlat(platClient2Basic);
+
+        // Comprovar rentat automàtic
         restaurant.iniciarRentatAutomatic();
+
+
     }
 }
